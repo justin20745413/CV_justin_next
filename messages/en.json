@@ -1,0 +1,25 @@
+{
+  "Home": {
+    "title": "Hi, I'm Justin",
+    "subtitle": "Front-End Developer",
+    "intro": "Welcome to my portfolio website..."
+  },
+  "Nav": {
+    "logo": "Justin",
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "Footer": {
+    "aboutTitle": "About",
+    "aboutText": "Front-end developer, focused on creating excellent user experiences.",
+    "linksTitle": "Links",
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "contactTitle": "Contact",
+    "contactText": "Feel free to reach out to discuss collaboration opportunities.",
+    "copyright": "© 2025 Justin. All rights reserved."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "Home": {
+    "title": "嗨，我是 Justin",
+    "subtitle": "前端工程師",
+    "intro": "歡迎來到我的個人作品集網站..."
+  },
+  "Nav": {
+    "logo": "Justin",
+    "home": "首頁",
+    "about": "關於我",
+    "projects": "專案",
+    "contact": "聯絡我"
+  },
+  "Footer": {
+    "aboutTitle": "關於",
+    "aboutText": "前端工程師，專注於創建優秀的用戶體驗。",
+    "linksTitle": "連結",
+    "home": "首頁",
+    "about": "關於我",
+    "projects": "專案",
+    "contactTitle": "聯絡",
+    "contactText": "歡迎與我聯繫，討論合作機會。",
+    "copyright": "© 2025 Justin. All rights reserved."
+  }
+}
