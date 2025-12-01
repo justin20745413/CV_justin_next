@@ -1,9 +1,4 @@
 {
-  "Home": {
-    "title": "Hi, I'm Justin",
-    "subtitle": "Front-End Developer",
-    "intro": "Welcome to my portfolio website..."
-  },
   "Nav": {
     "logo": "Justin",
     "home": "Home",

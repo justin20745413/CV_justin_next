@@ -1,0 +1,123 @@
+{
+  "Home": {
+    "hero": {
+      "greeting": "Hello",
+      "title": "I'm Justin",
+      "subtitle": "Frontend Developer",
+      "intro": "Welcome to my portfolio website...",
+      "description": "Passionate frontend developer creating exceptional web experiences with modern technologies.",
+      "viewPortfolio": "View Portfolio",
+      "contactMe": "Contact Me"
+    },
+    "stats": {
+      "experience": {
+        "value": "1.5+",
+        "label": "Years Experience"
+      },
+      "projects": {
+        "value": "8+",
+        "label": "Projects Completed"
+      },
+      "skills": {
+        "value": "15+",
+        "label": "Tech Stack"
+      }
+    },
+    "portfolio": {
+      "title": "Featured Projects",
+      "subtitle": "Professional solutions built with modern technologies",
+      "projects": {
+        "project1": {
+          "title": "EMS Exhibition Management Platform",
+          "tech": "Vue.js, vite, NaiveUI, TypeScript",
+          "description": "Modern exhibition management platform with complete event management features"
+        },
+        "project2": {
+          "title": "EPOS Electronic Petition System",
+          "tech": "Vue.js, Quasar, TypeScript",
+          "description": "Secure electronic petition system ensuring voting process transparency"
+        },
+        "project3": {
+          "title": "MAMP Medical Association Management Platform",
+          "tech": "Vue.js, Quasar, vite, TypeScript",
+          "description": "Professional medical association management system improving organizational efficiency"
+        },
+        "project4": {
+          "title": "AMS Association Management System",
+          "tech": "Vue.js, Quasar, Vite, TypeScript",
+          "description": "Comprehensive association management solution streamlining operations"
+        },
+        "project5": {
+          "title": "Taiwan Oral & Maxillofacial Surgery Association Website",
+          "tech": "Vue.js, Nuxt.js, TypeScript",
+          "description": "Professional medical association official website providing information services"
+        },
+        "project6": {
+          "title": "Central Election Commission Website Redesign",
+          "tech": "Vue.js, Nuxt.js, TypeScript",
+          "description": "Government website modernization improving UX, WCAG 2.1 compliant"
+        },
+        "project7": {
+          "title": "CEC Website Admin Panel",
+          "tech": "Vue.js, Quasar, Vite, TypeScript",
+          "description": "Flexible admin system ensuring efficient website content management"
+        },
+        "project8": {
+          "title": "Fire Department Message Platform Resilience Project",
+          "tech": "Vue.js, TypeScript, Docker",
+          "description": "Public messaging platform ensuring emergency communication needs"
+        }
+      }
+    },
+    "skills": {
+      "title": "Skills & Tools",
+      "subtitle": "Master various tech stacks from frontend to backend fundamentals",
+      "categories": {
+        "coreFramework": "Core Framework",
+        "uiDevelopment": "UI Development",
+        "devTools": "Dev Tools",
+        "advancedTech": "Advanced Tech",
+        "designSoftware": "Design Software",
+        "database": "Database",
+        "otherSkills": "Other Skills"
+      }
+    },
+    "experience": {
+      "title": "Work Experience",
+      "jobs": {
+        "job1": {
+          "company": "Ascendant Integration Co., Ltd.",
+          "role": "Frontend Engineer",
+          "period": "Sep 2024 - Present",
+          "description": "Developing modern web applications using Vue, Nuxt, Vite, Tailwind CSS, Quasar, and TypeScript."
+        },
+        "job2": {
+          "company": "Institute for Information Industry Training",
+          "role": "Software Engineer",
+          "period": "Mar 2024 - Jul 2024",
+          "description": "Developed modern web applications using JavaScript, Bootstrap, MySQL, Docker, Git, and PHP."
+        },
+        "job3": {
+          "company": "Maoli Technology Co., Ltd.",
+          "role": "Project Manager",
+          "period": "2023 - 2024",
+          "description": "Managed project planning and timeline control, coordinated cross-functional teams, drove products from requirements to delivery, ensuring quality meets client expectations."
+        }
+      }
+    },
+    "contact": {
+      "title": "Contact Me",
+      "subtitle": "Feel free to reach out for collaboration or project inquiries.",
+      "form": {
+        "name": "Name",
+        "namePlaceholder": "Enter your name",
+        "email": "Email",
+        "emailPlaceholder": "Enter your email",
+        "message": "Message",
+        "messagePlaceholder": "Enter your message",
+        "submit": "Send Message",
+        "successMessage": "Message sent successfully!"
+      }
+    }
+  }
+}

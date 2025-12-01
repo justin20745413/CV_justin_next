@@ -1,0 +1,123 @@
+{
+  "Home": {
+    "hero": {
+      "greeting": "你好",
+      "title": "我是 Justin",
+      "subtitle": "前端開發者",
+      "intro": "歡迎來到我的個人作品集網站...",
+      "description": "熱情的前端開發者,使用現代技術創建卓越的網頁體驗。",
+      "viewPortfolio": "查看作品集",
+      "contactMe": "與我聯繫"
+    },
+    "stats": {
+      "experience": {
+        "value": "1.5+",
+        "label": "年開發經驗"
+      },
+      "projects": {
+        "value": "8+",
+        "label": "完成專案"
+      },
+      "skills": {
+        "value": "15+",
+        "label": "技術棧"
+      }
+    },
+    "portfolio": {
+      "title": "參與過的專案",
+      "subtitle": "運用現代化技術打造的專業解決方案",
+      "projects": {
+        "project1": {
+          "title": "EMS 會展平台計畫",
+          "tech": "Vue.js, vite, NaiveUI, TypeScript",
+          "description": "現代化的會展管理平台,提供完整的活動管理功能"
+        },
+        "project2": {
+          "title": "EPOS 中選會罷免電子連署系統",
+          "tech": "Vue.js, Quasar, TypeScript",
+          "description": "安全的電子連署系統,確保投票過程的透明性"
+        },
+        "project3": {
+          "title": "MAMP 醫學會管理平台",
+          "tech": "Vue.js, Quasar, vite, TypeScript",
+          "description": "專業的醫療學會管理系統,提升組織運營效率"
+        },
+        "project4": {
+          "title": "AMS 會務管理系統",
+          "tech": "Vue.js, Quasar, Vite, TypeScript",
+          "description": "全面的會務管理解決方案,便利組織運營流程"
+        },
+        "project5": {
+          "title": "中華民國口腔顎面外科學會官網",
+          "tech": "Vue.js, Nuxt.js, TypeScript",
+          "description": "專業的醫療學會官方網站,提供資訊服務"
+        },
+        "project6": {
+          "title": "CECW 中選會官網再造",
+          "tech": "Vue.js, Nuxt.js, TypeScript",
+          "description": "政府機關網站現代化改造,提升用戶體驗,符合無障礙標章2.1"
+        },
+        "project7": {
+          "title": "CECW 中選會官網後台管理",
+          "tech": "Vue.js, Quasar, Vite, TypeScript",
+          "description": "可調整性的後台管理系統,確保網站內容管理效率"
+        },
+        "project8": {
+          "title": "MSP3 消防署訊息平台海外第三中心強韌案",
+          "tech": "Vue.js, TypeScript, Docker",
+          "description": "提供民眾可用性的訊息平台,保障緊急通訊需求"
+        }
+      }
+    },
+    "skills": {
+      "title": "技能與工具",
+      "subtitle": "掌握多種技術棧,從前端開發到後端基礎",
+      "categories": {
+        "coreFramework": "核心框架",
+        "uiDevelopment": "UI 開發",
+        "devTools": "開發工具",
+        "advancedTech": "進階技術",
+        "designSoftware": "設計軟體",
+        "database": "資料庫",
+        "otherSkills": "其他技能"
+      }
+    },
+    "experience": {
+      "title": "我的工作經驗",
+      "jobs": {
+        "job1": {
+          "company": "昇晉整合有限公司",
+          "role": "前端工程師",
+          "period": "2024年9月 - 至今",
+          "description": "使用 Vue、Nuxt、Vite、Tailwind CSS、Quasar、TypeScript 等技術開發現代化網頁應用程式。"
+        },
+        "job2": {
+          "company": "資策會培訓",
+          "role": "軟體工程師",
+          "period": "2024年3月 - 2024年7月",
+          "description": "使用 JavaScript、Bootstrap、MySQL、Docker、Git、php 等技術開發現代化網頁應用程式。"
+        },
+        "job3": {
+          "company": "茂利科技有限公司",
+          "role": "PM 專案經理",
+          "period": "2023年 - 2024年",
+          "description": "負責專案規劃與時程掌控,協調跨部門團隊合作,推動產品從需求定義到最終交付,並確保開發進度與品質符合客戶期待。"
+        }
+      }
+    },
+    "contact": {
+      "title": "聯絡我",
+      "subtitle": "歡迎合作或專案洽詢,請隨時與我聯繫。",
+      "form": {
+        "name": "姓名",
+        "namePlaceholder": "請輸入您的姓名",
+        "email": "電子信箱",
+        "emailPlaceholder": "請輸入您的電子信箱",
+        "message": "訊息內容",
+        "messagePlaceholder": "請輸入您的訊息",
+        "submit": "送出訊息",
+        "successMessage": "訊息已成功送出!"
+      }
+    }
+  }
+}

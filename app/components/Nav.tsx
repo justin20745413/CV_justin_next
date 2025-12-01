@@ -43,7 +43,7 @@ export default function Nav() {
   }
 
   const toggleLocale = () => {
-    const newLocale = locale === 'zh' ? 'en' : 'zh';
+    const newLocale = locale === 'zh-TW' ? 'en-US' : 'zh-TW';
     router.replace(pathname, { locale: newLocale });
   };
 
@@ -116,7 +116,7 @@ export default function Nav() {
                 color: '#ffffff',
               }}
             >
-              {locale === 'zh' ? 'EN' : '中文'}
+              {locale === 'zh-TW' ? 'EN' : '中文'}
             </button>
             <button
               onClick={toggleTheme}

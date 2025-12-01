@@ -1,9 +1,4 @@
 {
-  "Home": {
-    "title": "嗨，我是 Justin",
-    "subtitle": "前端工程師",
-    "intro": "歡迎來到我的個人作品集網站..."
-  },
   "Nav": {
     "logo": "Justin",
     "home": "首頁",
