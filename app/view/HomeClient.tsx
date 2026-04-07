@@ -28,9 +28,8 @@ export default function HomeClient({
     if (!mounted) return;
     const loadSwiper = async () => {
       const Swiper = (await import('swiper')).default;
-      const { Navigation, Pagination, Autoplay } = await import(
-        'swiper/modules'
-      );
+      const { Navigation, Pagination, Autoplay } =
+        await import('swiper/modules');
 
       if (swiperRef.current) {
         new Swiper(swiperRef.current, {
@@ -216,11 +215,17 @@ export default function HomeClient({
                         <div
                           className="h-48 flex items-center justify-center relative overflow-hidden group"
                           style={{
-                            backgroundColor: project.image ? 'transparent' : 'var(--primary)',
+                            backgroundColor: project.image
+                              ? 'transparent'
+                              : 'var(--primary)',
                           }}
                         >
                           {project.image ? (
-                            <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                            <img
+                              src={project.image}
+                              alt={project.title}
+                              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                            />
                           ) : (
                             <div
                               className="text-6xl font-bold opacity-20"
@@ -235,17 +240,30 @@ export default function HomeClient({
                             className="text-xl font-bold mb-3 transition-colors flex items-start justify-between gap-2"
                             style={{ color: 'var(--foreground)' }}
                           >
-                            <span className="line-clamp-2 flex-1">{project.title}</span>
+                            <span className="line-clamp-2 flex-1">
+                              {project.title}
+                            </span>
                             {project.url && (
-                              <a 
-                                href={project.url} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
+                              <a
+                                href={project.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="text-blue-500 hover:text-blue-700 flex-shrink-0 mt-1"
                                 title="前往專案連結"
                               >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                <svg
+                                  className="w-4 h-4"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                  />
                                 </svg>
                               </a>
                             )}
@@ -428,7 +446,6 @@ export default function HomeClient({
             </p>
           </div>
 
-
           {/* Swiper Container */}
           <div className="swiper-container-wrapper relative">
             <link
@@ -453,7 +470,11 @@ export default function HomeClient({
                         }}
                       >
                         {project.image ? (
-                          <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                          <img
+                            src={project.image}
+                            alt={project.title}
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                          />
                         ) : (
                           <div
                             className="text-6xl font-bold opacity-20"
@@ -468,17 +489,30 @@ export default function HomeClient({
                           className="text-xl font-bold mb-3 transition-colors flex items-start justify-between gap-2"
                           style={{ color: 'var(--foreground)' }}
                         >
-                          <span className="line-clamp-2 flex-1">{project.title}</span>
+                          <span className="line-clamp-2 flex-1">
+                            {project.title}
+                          </span>
                           {project.url && (
-                            <a 
-                              href={project.url} 
-                              target="_blank" 
-                              rel="noopener noreferrer" 
+                            <a
+                              href={project.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
                               className="text-blue-500 hover:text-blue-700 flex-shrink-0 mt-1"
                               title="前往專案連結"
                             >
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                              <svg
+                                className="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                />
                               </svg>
                             </a>
                           )}
@@ -558,10 +592,10 @@ export default function HomeClient({
 
       {/* Experience Section */}
       <section
-        className="py-20 px-4 transition-colors"
+        className="py-20 px-4 transition-colors border border-white"
         style={{ backgroundColor: 'var(--secondary)' }}
       >
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto ">
           <h2
             className="text-4xl md:text-5xl font-bold mb-12 text-center transition-colors"
             style={{ color: 'var(--foreground)' }}
@@ -573,7 +607,7 @@ export default function HomeClient({
             {t.experience.jobs.map((job, index) => (
               <div
                 key={index}
-                className="rounded-2xl shadow-lg p-8 border-l-4 transform hover:scale-102 transition-all"
+                className="rounded-2xl shadow-lg p-8 border-l-4 transform hover:scale-102 transition-all border border-white"
                 style={{
                   backgroundColor: 'var(--background)',
                   borderLeftColor: 'var(--primary)',

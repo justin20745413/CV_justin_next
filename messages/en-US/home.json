@@ -1,8 +1,8 @@
 {
   "Home": {
     "hero": {
-      "greeting": "Hello",
-      "title": "I'm Justin",
+      "greeting": "Hi, I'm",
+      "title": "Justin",
       "subtitles": [
         "Frontend Developer",
         "Web Designer",
@@ -10,8 +10,8 @@
         "Tech Enthusiast",
         "Lifelong Learner"
       ],
-      "intro": "Welcome to my portfolio website...",
-      "description": "Passionate frontend developer creating exceptional web experiences with modern technologies.",
+      "intro": "Welcome to my personal portfolio",
+      "description": "Frontend Engineer dedicated to building high-performance web applications using Vue 3 and Nuxt.js. Expert in leveraging TypeScript for robust codebases and experienced in optimizing the full SDLC to ensure seamless product delivery.",
       "viewPortfolio": "View Portfolio",
       "contactMe": "Contact Me"
     },
@@ -21,7 +21,7 @@
         "label": "Years Experience"
       },
       "projects": {
-        "value": "8+",
+        "value": "9+",
         "label": "Projects Completed"
       },
       "skills": {
@@ -31,56 +31,65 @@
     },
     "portfolio": {
       "title": "Featured Projects",
-      "subtitle": "Professional solutions built with modern technologies",
-      "viewPortfolio": "View Portfolio",
+      "subtitle": "Enterprise-grade solutions built with modern frontend technologies",
+      "viewPortfolio": "View Project Details",
       "projects": {
+        "project0": {
+          "title": "SOK Enterprise Master",
+          "tech": "Nuxt.js, TypeScript, Quasar",
+          "description": "An integrated enterprise management platform combining 104 Job Bank's Business Master service with organizational analytics and chart visualization, empowering HR teams with talent data analysis, org structure visualization, and data-driven recruitment strategy — enhancing overall HR decision-making efficiency.",
+          "image": "/img/sok admin.png"
+        },
         "project1": {
           "title": "EMS Exhibition Management Platform",
-          "tech": "Vue.js, vite, NaiveUI, TypeScript",
-          "description": "Modern exhibition management platform with complete event management features",
+          "tech": "Vue.js, Vite, NaiveUI, TypeScript",
+          "description": "A modern exhibition management platform integrating event registration, venue scheduling, exhibitor management, and analytics dashboards — significantly improving organizer efficiency and enhancing the exhibitor and attendee experience.",
           "image": "/img/ems admin.png"
         },
         "project2": {
-          "title": "EPOS Electronic Petition System",
+          "title": "EPOS Electronic Recall Petition System",
           "tech": "Vue.js, Quasar, TypeScript",
-          "description": "Secure electronic petition system ensuring voting process transparency"
+          "description": "A high-security electronic petition platform developed for Taiwan's Central Election Commission, featuring strict identity verification, end-to-end data encryption, and anti-fraud mechanisms to ensure the legality, transparency, and integrity of the petition process in compliance with government cybersecurity standards.",
+          "image": "/img/epos admin.png"
         },
         "project3": {
           "title": "MAMP Medical Association Management Platform",
-          "tech": "Vue.js, Quasar, vite, TypeScript",
-          "description": "Professional medical association management system improving organizational efficiency",
+          "tech": "Vue.js, Quasar, Vite, TypeScript",
+          "description": "A comprehensive management system tailored for medical and academic associations, covering member data management, event registration, continuing education credit tracking, and bulletin publishing — effectively improving administrative efficiency and service quality.",
           "url": "https://mamp.confapps.com/mamp-web-admin/#/login?redirect=/dashboard",
           "image": "/img/mamp admin.png"
         },
         "project4": {
           "title": "AMS Association Management System",
           "tech": "Vue.js, Quasar, Vite, TypeScript",
-          "description": "Comprehensive association management solution streamlining operations",
+          "description": "A full-featured association operations platform offering member management, dues collection, meeting records, and report exports. Designed to help organizations digitize daily administrative workflows and improve overall operational efficiency.",
           "url": "https://taoms.confapps.com/ams-web-admin/#/login",
-          "image": "/img/ams web.png"
+          "image": "/img/ams admin.png"
         },
         "project5": {
           "title": "Taiwan Oral & Maxillofacial Surgery Association Website",
           "tech": "Vue.js, Nuxt.js, TypeScript",
-          "description": "Professional medical association official website providing information services",
-          "url": "https://www.aoms.org.tw/zh-tw"
+          "description": "Official website for a professional medical academic society, providing up-to-date medical information, academic event announcements, board member directories, and public health education resources — balancing professional credibility with user-friendly accessibility.",
+          "url": "https://www.aoms.org.tw/zh-tw",
+          "image": "/img/ams web.png"
         },
         "project6": {
-          "title": "Central Election Commission Website Redesign",
+          "title": "CECW Central Election Commission Website Redesign",
           "tech": "Vue.js, Nuxt.js, TypeScript",
-          "description": "Government website modernization improving UX, WCAG 2.1 compliant",
-          "url": "https://web.cec.gov.tw/central"
+          "description": "Led a full modernization of the Central Election Commission's official website, introducing responsive design, SEO optimization, and frontend performance tuning, while strictly adhering to WCAG 2.1 AA accessibility standards to ensure the site is accessible and usable by all citizens.",
+          "url": "https://web.cec.gov.tw/central",
+          "image": "/img/cecw web.png"
         },
         "project7": {
-          "title": "CEC Website Admin Panel",
+          "title": "CEC Website Backend Admin Panel",
           "tech": "Vue.js, Quasar, Vite, TypeScript",
-          "description": "Flexible admin system ensuring efficient website content management",
+          "description": "A content management system built alongside the CEC official website, supporting dynamic page editing, multimedia uploads, election information publishing, and role-based access control — enabling content administrators to update and maintain the site quickly and securely.",
           "image": "/img/cecw admin.png"
         },
         "project8": {
-          "title": "Fire Department Message Platform Resilience Project",
+          "title": "MSP3 Fire Agency Messaging Platform Resilience Project",
           "tech": "Vue.js, TypeScript, Docker",
-          "description": "Public messaging platform ensuring emergency communication needs",
+          "description": "A highly available emergency messaging platform built for Taiwan's National Fire Agency, leveraging containerized deployment to ensure system stability and fault tolerance under extreme conditions — safeguarding real-time communication needs for frontline rescue personnel and the public.",
           "url": "https://msp2.msp.tw/index",
           "image": "/img/msp admin.png"
         }
@@ -88,7 +97,7 @@
     },
     "skills": {
       "title": "Skills & Tools",
-      "subtitle": "Master various tech stacks from frontend to backend fundamentals",
+      "subtitle": "Proficient across multiple tech stacks, from frontend development to backend fundamentals",
       "categories": {
         "coreFramework": "Core Framework",
         "uiDevelopment": "UI Development",
@@ -106,34 +115,34 @@
           "company": "Ascendant Integration Co., Ltd.",
           "role": "Frontend Engineer",
           "period": "Sep 2024 - Present",
-          "description": "Developing modern web applications using Vue, Nuxt, Vite, Tailwind CSS, Quasar, and TypeScript."
+          "description": "Led frontend development for multiple government agency and medical association projects, building high-quality enterprise web applications using Vue.js, Nuxt.js, Vite, Quasar, Tailwind CSS, and TypeScript. Responsibilities include system architecture design, technology selection, performance optimization, and cross-browser compatibility assurance."
         },
         "job2": {
-          "company": "Institute for Information Industry Training",
+          "company": "Institute for Information Industry (III) Training Program",
           "role": "Software Engineer",
           "period": "Mar 2024 - Jul 2024",
-          "description": "Developed modern web applications using JavaScript, Bootstrap, MySQL, Docker, Git, and PHP."
+          "description": "Completed an intensive full-stack development training program at III (Institute for Information Industry), building multiple end-to-end projects using JavaScript, Bootstrap, PHP, MySQL, Docker, and Git — establishing a solid foundation in software engineering principles and agile development practices."
         },
         "job3": {
           "company": "Maoli Technology Co., Ltd.",
           "role": "Project Manager",
           "period": "2023 - 2024",
-          "description": "Managed project planning and timeline control, coordinated cross-functional teams, drove products from requirements to delivery, ensuring quality meets client expectations."
+          "description": "Oversaw the full lifecycle of ERP system implementation and custom development projects, including requirements gathering, functional specifications, development progress tracking, and client acceptance. Coordinated cross-departmental teams and external vendors to ensure on-time, on-quality delivery, accumulating extensive experience in software project management and client communication."
         }
       }
     },
     "contact": {
-      "title": "Contact Me",
-      "subtitle": "Feel free to reach out for collaboration or project inquiries.",
+      "title": "Get In Touch",
+      "subtitle": "Whether it's a project collaboration, technical consultation, or a new opportunity — feel free to reach out and I'll get back to you as soon as possible.",
       "form": {
-        "name": "Name / company name",
-        "namePlaceholder": "Enter your name / company name",
-        "email": "Email",
-        "emailPlaceholder": "Enter your email",
+        "name": "Name / Company",
+        "namePlaceholder": "Enter your name or company name",
+        "email": "Email Address",
+        "emailPlaceholder": "Enter your email address",
         "message": "Message",
-        "messagePlaceholder": "Enter your message",
+        "messagePlaceholder": "Describe your needs or ideas, and I'll get back to you shortly",
         "submit": "Send Message",
-        "successMessage": "Message sent successfully!"
+        "successMessage": "Your message has been sent successfully. Thank you for reaching out!"
       }
     }
   }
