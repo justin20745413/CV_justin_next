@@ -1,63 +1,15 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-
-interface Translations {
-  hero: {
-    greeting: string;
-    title: string;
-    subtitle: string;
-    description: string;
-    viewPortfolio: string;
-    contactMe: string;
-  };
-  stats: {
-    experience: { value: string; label: string };
-    projects: { value: string; label: string };
-    skills: { value: string; label: string };
-  };
-  portfolio: {
-    title: string;
-    subtitle: string;
-    projects: Array<{
-      title: string;
-      tech: string;
-      description: string;
-    }>;
-  };
-  skills: {
-    title: string;
-    subtitle: string;
-  };
-  experience: {
-    title: string;
-    jobs: Array<{
-      company: string;
-      role: string;
-      period: string;
-      description: string;
-    }>;
-  };
-  contact: {
-    title: string;
-    subtitle: string;
-    form: {
-      name: string;
-      namePlaceholder: string;
-      email: string;
-      emailPlaceholder: string;
-      message: string;
-      messagePlaceholder: string;
-      submit: string;
-      successMessage: string;
-    };
-  };
-}
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { HomeTranslations } from '@/app/models/Hometranslation';
+import InteractiveBackground from '../components/InteractiveBackground';
+import Typewriter from '../components/effects/Typewriter';
+import Counter from '../components/effects/Counter';
 
 export default function HomeClient({
   translations: t,
 }: {
-  translations: Translations;
+  translations: HomeTranslations;
 }) {
   const swiperRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({
@@ -65,51 +17,101 @@ export default function HomeClient({
     email: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
   useEffect(() => {
+    if (!mounted) return;
     const loadSwiper = async () => {
       const Swiper = (await import('swiper')).default;
-      const { Navigation, Pagination, Autoplay, EffectCoverflow } =
-        await import('swiper/modules');
+      const { Navigation, Pagination, Autoplay } = await import(
+        'swiper/modules'
+      );
 
       if (swiperRef.current) {
         new Swiper(swiperRef.current, {
-          modules: [Navigation, Pagination, Autoplay, EffectCoverflow],
-          effect: 'coverflow',
-          grabCursor: true,
-          centeredSlides: true,
+          modules: [Navigation, Pagination, Autoplay],
+          slidesPerView: 3,
+          spaceBetween: 30,
           loop: true,
-          slidesPerView: 'auto',
-          coverflowEffect: {
-            rotate: 0,
-            stretch: 0,
-            depth: 100,
-            modifier: 2.5,
+          centeredSlides: false,
+
+          breakpoints: {
+            // 手機版:顯示 1 張
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 10,
+            },
+            // 平板版:顯示 2 張
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            // 桌面版:顯示 3 張
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 30,
+            },
           },
+
+          // 自動播放設定
           autoplay: {
             delay: 3000,
             disableOnInteraction: false,
           },
+
+          // 分頁器
           pagination: {
             el: '.swiper-pagination',
             clickable: true,
-          },
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
           },
         });
       }
     };
 
     loadSwiper();
-  }, []);
+  }, [mounted]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('表單提交:', formData);
-    alert(t.contact.form.successMessage);
-    setFormData({ name: '', email: '', message: '' });
+
+    if (
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      !formData.message.trim()
+    ) {
+      alert('請填寫所有欄位');
+      return;
+    }
+
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+
+      alert(t.contact.form.successMessage);
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      console.error('Error:', error);
+      alert('發送失敗，請稍後再試');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (field: keyof typeof formData, value: string) => {
@@ -127,31 +129,181 @@ export default function HomeClient({
     { name: 'Docker', level: 1 },
   ];
 
+  if (!mounted) {
+    return (
+      <div
+        className="min-h-screen"
+        style={{ backgroundColor: 'var(--background)' }}
+      >
+        {/* Hero Section Skeleton */}
+        <section className="relative min-h-screen flex items-center justify-center px-4">
+          <div className="max-w-7xl mx-auto text-center">
+            {/* ✅ 使用 CSS 變數取代 bg-gray-300 */}
+            <div
+              className="h-8 w-48 mx-auto mb-4 animate-pulse rounded"
+              style={{ backgroundColor: 'var(--text-muted)' }}
+            ></div>
+            <div
+              className="h-6 w-96 mx-auto mb-8 animate-pulse rounded"
+              style={{ backgroundColor: 'var(--text-muted)' }}
+            ></div>
+            <div
+              className="h-6 w-64 mx-auto mb-4 animate-pulse rounded"
+              style={{ backgroundColor: 'var(--text-muted)' }}
+            ></div>
+
+            {/* Stats Skeleton */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mt-12">
+              {[1, 2, 3].map(i => (
+                <div
+                  key={i}
+                  className="rounded-2xl shadow-xl p-6"
+                  style={{ backgroundColor: 'var(--secondary)' }}
+                >
+                  <div
+                    className="h-10 w-20 mx-auto mb-4 animate-pulse rounded"
+                    style={{ backgroundColor: 'var(--border)' }}
+                  ></div>
+                  <div
+                    className="h-4 w-32 mx-auto animate-pulse rounded"
+                    style={{ backgroundColor: 'var(--border)' }}
+                  ></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Portfolio Section Skeleton */}
+        <section
+          id="portfolio"
+          className="py-20 px-4 transition-colors"
+          style={{ backgroundColor: 'var(--secondary)' }}
+        >
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2
+                className="text-4xl md:text-5xl font-bold mb-4 transition-colors"
+                style={{ color: 'var(--foreground)' }}
+              >
+                {t.portfolio.title}
+              </h2>
+              <p
+                className="text-xl transition-colors"
+                style={{ color: 'var(--text-muted)' }}
+              >
+                {t.portfolio.subtitle}
+              </p>
+            </div>
+
+            {/* Swiper Container - 三欄式布局 */}
+            <div className="swiper-container-wrapper relative">
+              <link
+                rel="stylesheet"
+                href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+              />
+              <div ref={swiperRef} className="swiper three-slides-swiper">
+                <div className="swiper-wrapper">
+                  {t.portfolio.projects.map((project, index) => (
+                    <div key={index} className="swiper-slide">
+                      <div
+                        className="rounded-2xl shadow-xl overflow-hidden transform transition-all hover:shadow-2xl h-full"
+                        style={{
+                          backgroundColor: 'var(--background)',
+                          border: '1px solid var(--border)',
+                        }}
+                      >
+                        <div
+                          className="h-48 flex items-center justify-center relative overflow-hidden group"
+                          style={{
+                            backgroundColor: project.image ? 'transparent' : 'var(--primary)',
+                          }}
+                        >
+                          {project.image ? (
+                            <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                          ) : (
+                            <div
+                              className="text-6xl font-bold opacity-20"
+                              style={{ color: 'var(--background)' }}
+                            >
+                              {index + 1}
+                            </div>
+                          )}
+                        </div>
+                        <div className="p-6">
+                          <h3
+                            className="text-xl font-bold mb-3 transition-colors flex items-start justify-between gap-2"
+                            style={{ color: 'var(--foreground)' }}
+                          >
+                            <span className="line-clamp-2 flex-1">{project.title}</span>
+                            {project.url && (
+                              <a 
+                                href={project.url} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="text-blue-500 hover:text-blue-700 flex-shrink-0 mt-1"
+                                title="前往專案連結"
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                              </a>
+                            )}
+                          </h3>
+                          <p
+                            className="text-sm font-semibold mb-3 transition-colors"
+                            style={{ color: 'var(--primary)' }}
+                          >
+                            {project.tech}
+                          </p>
+                          <p
+                            className="line-clamp-3 transition-colors"
+                            style={{ color: 'var(--text-muted)' }}
+                          >
+                            {project.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* 分頁器 */}
+                <div className="swiper-pagination"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
   return (
     <>
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
+      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <InteractiveBackground />
+        <div className="relative z-10 max-w-7xl mx-auto text-center">
           <p
-            className="text-lg md:text-xl mb-4 animate-fade-in transition-colors"
+            className="text-lg md:text-xl mb-4 animate-fade-in transition-colors select-none cursor-default"
             style={{ color: 'var(--text-muted)' }}
           >
             {t.hero.greeting}
           </p>
           <h1
-            className="text-2xl md:text-5xl font-bold mb-4 animate-slide-up transition-colors"
+            className="text-2xl md:text-5xl font-bold mb-4 animate-slide-up transition-colors select-none cursor-default"
             style={{ color: 'var(--foreground)' }}
           >
             {t.hero.title}
           </h1>
           <h2
-            className="text-2xl md:text-2xl font-semibold mb-6 animate-slide-up-delay transition-colors"
+            className="text-2xl md:text-2xl font-semibold mb-6 animate-slide-up-delay transition-colors select-none cursor-default"
             style={{ color: 'var(--text-muted)' }}
           >
-            {t.hero.subtitle}
+            <Typewriter words={t.hero.subtitles} />
           </h2>
           <p
-            className="text-xl md:text-xl max-w-3xl mx-auto mb-8 animate-fade-in-delay transition-colors"
+            className="text-xl md:text-xl max-w-3xl mx-auto mb-8 animate-fade-in-delay transition-colors select-none cursor-default"
             style={{ color: 'var(--foreground)' }}
           >
             {t.hero.description}
@@ -167,10 +319,13 @@ export default function HomeClient({
                 className="text-4xl font-bold mb-2 transition-colors"
                 style={{ color: 'var(--primary)' }}
               >
-                {t.stats.experience.value}
+                <Counter
+                  className="select-none cursor-default"
+                  value={t.stats.experience.value}
+                />
               </div>
               <div
-                className="transition-colors"
+                className="transition-colors select-none cursor-default"
                 style={{ color: 'var(--text-muted)' }}
               >
                 {t.stats.experience.label}
@@ -184,10 +339,13 @@ export default function HomeClient({
                 className="text-4xl font-bold mb-2 transition-colors"
                 style={{ color: 'var(--primary)' }}
               >
-                {t.stats.projects.value}
+                <Counter
+                  value={t.stats.projects.value}
+                  className="select-none cursor-default"
+                />
               </div>
               <div
-                className="transition-colors"
+                className="transition-colors select-none cursor-default"
                 style={{ color: 'var(--text-muted)' }}
               >
                 {t.stats.projects.label}
@@ -201,10 +359,13 @@ export default function HomeClient({
                 className="text-4xl font-bold mb-2 transition-colors"
                 style={{ color: 'var(--primary)' }}
               >
-                {t.stats.skills.value}
+                <Counter
+                  value={t.stats.skills.value}
+                  className="select-none cursor-default"
+                />
               </div>
               <div
-                className="transition-colors"
+                className="transition-colors select-none cursor-default"
                 style={{ color: 'var(--text-muted)' }}
               >
                 {t.stats.skills.label}
@@ -267,6 +428,7 @@ export default function HomeClient({
             </p>
           </div>
 
+
           {/* Swiper Container */}
           <div className="swiper-container-wrapper relative">
             <link
@@ -274,7 +436,7 @@ export default function HomeClient({
               href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
             />
             <div ref={swiperRef} className="swiper">
-              <div className="swiper-wrapper">
+              <div className="swiper-wrapper my-10 mx-10">
                 {t.portfolio.projects.map((project, index) => (
                   <div key={index} className="swiper-slide">
                     <div
@@ -285,24 +447,41 @@ export default function HomeClient({
                       }}
                     >
                       <div
-                        className="h-48 flex items-center justify-center"
+                        className="h-48 flex items-center justify-center relative overflow-hidden group"
                         style={{
                           backgroundColor: 'var(--primary)',
                         }}
                       >
-                        <div
-                          className="text-6xl font-bold opacity-20"
-                          style={{ color: 'var(--background)' }}
-                        >
-                          {index + 1}
-                        </div>
+                        {project.image ? (
+                          <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                        ) : (
+                          <div
+                            className="text-6xl font-bold opacity-20"
+                            style={{ color: 'var(--background)' }}
+                          >
+                            {index + 1}
+                          </div>
+                        )}
                       </div>
                       <div className="p-6">
                         <h3
-                          className="text-xl font-bold mb-3 line-clamp-2 transition-colors"
+                          className="text-xl font-bold mb-3 transition-colors flex items-start justify-between gap-2"
                           style={{ color: 'var(--foreground)' }}
                         >
-                          {project.title}
+                          <span className="line-clamp-2 flex-1">{project.title}</span>
+                          {project.url && (
+                            <a 
+                              href={project.url} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="text-blue-500 hover:text-blue-700 flex-shrink-0 mt-1"
+                              title="前往專案連結"
+                            >
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                              </svg>
+                            </a>
+                          )}
                         </h3>
                         <p
                           className="text-sm font-semibold mb-3 transition-colors"
@@ -322,15 +501,7 @@ export default function HomeClient({
                 ))}
               </div>
 
-              <div
-                className="swiper-button-next"
-                style={{ color: 'var(--primary)' }}
-              ></div>
-              <div
-                className="swiper-button-prev"
-                style={{ color: 'var(--primary)' }}
-              ></div>
-              <div className="swiper-pagination"></div>
+              <div className="swiper-pagination mt-6"></div>
             </div>
           </div>
         </div>
@@ -550,20 +721,26 @@ export default function HomeClient({
 
               <button
                 onClick={handleSubmit}
+                disabled={isSubmitting}
                 className="w-full px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg"
                 style={{
-                  backgroundColor: 'var(--primary)',
+                  backgroundColor: isSubmitting
+                    ? 'var(--text-muted)'
+                    : 'var(--primary)',
                   color: 'var(--background)',
+                  cursor: isSubmitting ? 'not-allowed' : 'pointer',
                 }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.backgroundColor =
-                    'var(--primary-hover)';
+                  if (!isSubmitting)
+                    e.currentTarget.style.backgroundColor =
+                      'var(--primary-hover)';
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.backgroundColor = 'var(--primary)';
+                  if (!isSubmitting)
+                    e.currentTarget.style.backgroundColor = 'var(--primary)';
                 }}
               >
-                {t.contact.form.submit}
+                {isSubmitting ? '傳送中...' : t.contact.form.submit}
               </button>
             </div>
           </div>
@@ -580,6 +757,10 @@ export default function HomeClient({
         .swiper {
           width: 100%;
           padding: 50px 0 80px 0;
+          --swiper-theme-color: var(--primary);
+          --swiper-pagination-color: var(--primary);
+          --swiper-pagination-bullet-inactive-color: var(--primary);
+          --swiper-pagination-bullet-inactive-opacity: 0.5;
         }
 
         .swiper-slide {
@@ -588,12 +769,13 @@ export default function HomeClient({
         }
 
         .swiper-pagination-bullet {
-          background: var(--primary);
-          opacity: 0.5;
+          background: var(--primary) !important;
+          opacity: 0.5 !important;
         }
 
         .swiper-pagination-bullet-active {
-          opacity: 1;
+          background: var(--primary) !important;
+          opacity: 1 !important;
         }
 
         @keyframes fade-in {
@@ -635,6 +817,20 @@ export default function HomeClient({
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
           overflow: hidden;
+        }
+
+        @keyframes blink {
+          0%,
+          100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0;
+          }
+        }
+
+        .animate-blink {
+          animation: blink 1s step-end infinite;
         }
       `}</style>
     </>

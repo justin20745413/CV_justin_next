@@ -1,8 +1,8 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/intl/routing';
 import { useTranslations } from 'next-intl';
-import { useTheme } from './ThemeProvider';
+import { useTheme } from '../ThemeProvider';
 import { useSyncExternalStore } from 'react';
 
 export default function Footer() {
@@ -93,7 +93,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/projects"
+                  href="/#portfolio"
                   className="transition-colors hover:opacity-80"
                   style={{
                     color: theme === 'dark-orange' ? '#ededed' : '#64748b',
@@ -109,13 +109,17 @@ export default function Footer() {
               className="text-lg font-semibold mb-4 transition-colors"
               style={{ color: theme === 'dark-orange' ? '#ff6b35' : '#1e3a8a' }}
             >
-              {t('contactTitle')}
+              {t('contact.title')}
             </h3>
             <p
               className="transition-colors"
               style={{ color: theme === 'dark-orange' ? '#ededed' : '#64748b' }}
             >
-              {t('contactText')}
+              {t('contact.location')}
+              <br />
+              {t('contact.phone')}
+              <br />
+              {t('contact.emailPlaceholder')}：justin405450816@gmail.com
             </p>
           </div>
         </div>

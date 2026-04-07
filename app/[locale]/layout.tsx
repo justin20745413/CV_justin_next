@@ -8,6 +8,12 @@ import '../globals.css';
 export function generateStaticParams() {
   return routing.locales.map(locale => ({ locale }));
 }
+// 設定logo小圖示
+export const metadata = {
+  icons: {
+    icon: '/icon.svg',
+  },
+};
 
 export default async function LocaleLayout({
   children,

@@ -2,19 +2,33 @@
   "Nav": {
     "logo": "Justin",
     "home": "Home",
-    "about": "About",
+    "about": "About Me",
     "projects": "Projects",
-    "contact": "Contact"
+    "contact": "Contact",
+    "Theme": {
+      "switchToBlueWhite": "Switch to Blue-White Theme",
+      "switchToDarkOrange": "Switch to Dark-Orange Theme"
+    }
   },
   "Footer": {
     "aboutTitle": "About",
-    "aboutText": "Front-end developer, focused on creating excellent user experiences.",
+    "aboutText": "This website is maintained by Justin, focusing on frontend development and technology sharing, specializing in Vue 3, Nuxt, TypeScript and modern web technologies. Committed to creating clean, maintainable frontend applications with excellent user experience. Welcome to connect and collaborate.",
     "linksTitle": "Links",
     "home": "Home",
-    "about": "About",
+    "about": "About Me",
     "projects": "Projects",
-    "contactTitle": "Contact",
+    "contact": {
+      "title": "Contact",
+      "location": "New Taipei City Taiwan",
+      "phone": "+886 975960138",
+      "emailPlaceholder": "Email"
+    },
     "contactText": "Feel free to reach out to discuss collaboration opportunities.",
     "copyright": "© 2025 Justin. All rights reserved."
+  },
+  "leaveEmailNote": "You can also just leave your email here, and we will contact you later to discuss the details.",
+  "emailStatus": {
+    "success": "Submitted! Thank you for leaving your email! We will contact you soon.",
+    "error": "Submission failed, please check your email format"
   }
 }

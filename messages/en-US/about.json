@@ -1,0 +1,220 @@
+{
+  "about": {
+    "title": "Resume",
+    "actions": {
+      "download": "Download PDF"
+    },
+    "profile": {
+      "name": "Justin Huang",
+      "role": "Front-End Developer",
+      "location": "New Taipei City, Taiwan",
+      "email": "justin405450816@gmail.com",
+      "phone": "+886 975-960-138",
+      "experience": "1.5+ years",
+      "photo": "",
+      "summary": "Front-end developer skilled in Vue.js, Nuxt.js, TypeScript, and Tailwind CSS. Experienced in full project lifecycle, API collaboration, and creating efficient, user-friendly interfaces."
+    },
+    "sections": {
+      "summary": "Summary",
+      "skills": "Skills",
+      "experience": "Experience",
+      "education": "Education",
+      "projects": "Projects",
+      "links": "Links",
+      "languages": "Languages",
+      "certifications": "Certifications",
+      "achievements": "Achievements",
+      "relevant_courses": "Relevant Courses"
+    },
+    "links": {
+      "github": "GitHub",
+      "linkedin": "LinkedIn"
+    },
+    "skills": [
+      {
+        "category": "Front-End",
+        "items": [
+          "Vue 3",
+          "Nuxt 3",
+          "TypeScript",
+          "JavaScript",
+          "HTML5",
+          "CSS3",
+          "Sass/SCSS",
+          "Tailwind CSS",
+          "PrimeVue",
+          "Quasar",
+          "Bootstrap",
+          "Next",
+          "React"
+        ]
+      },
+      {
+        "category": "Backend & Tools",
+        "items": [
+          "PHP",
+          "MySQL",
+          "PostgreSQL",
+          "REST API",
+          "Node",
+          "Git",
+          "Docker",
+          "CI/CD",
+          "Webpack",
+          "Vite"
+        ]
+      },
+      {
+        "category": "Tools",
+        "items": [
+          "VS Code",
+          "Claude Code",
+          "Cursor",
+          "Figma",
+          "Adobe Suite",
+          "Postman",
+          "Chrome DevTools",
+          "NPM",
+          "ApiFox"
+        ]
+      },
+      {
+        "category": "Management",
+        "items": [
+          "Notion",
+          "Requirements Analysis",
+          "Timeline Planning",
+          "Cross-Team Coordination"
+        ]
+      }
+    ],
+    "languages": [{ "name": "Chinese" }, { "name": "English" }],
+    "experience": [
+      {
+        "company": "Sheng Jin Integration Co., Ltd.",
+        "role": "Front-End Developer",
+        "period": "Sep 2024 – Present",
+        "desc": "Develop enterprise systems with Vue 3 + Nuxt 3. Improve UI consistency, performance, and deployment automation.",
+        "technologies": [
+          "Vue 3",
+          "Nuxt 3",
+          "TypeScript",
+          "Tailwind CSS",
+          "Quasar",
+          "Vite",
+          "Pinia",
+          "Vue Router"
+        ]
+      },
+      {
+        "company": "Institute for Information Industry",
+        "role": "Software Engineer Trainee",
+        "period": "Mar 2024 – Jul 2024",
+        "desc": "Completed 5-month full-stack training. Built e-commerce project with JavaScript, PHP, and MySQL.",
+        "technologies": [
+          "JavaScript",
+          "PHP",
+          "MySQL",
+          "Bootstrap",
+          "Git",
+          "HTML5",
+          "CSS3",
+          "Vue 3",
+          "Vue 2"
+        ]
+      },
+      {
+        "company": "Mao Li Technology Co., Ltd.",
+        "role": "Project Manager",
+        "period": "Jun 2022 – Feb 2024",
+        "desc": "Managed PCB hardware projects, streamlined workflows, and coordinated cross-functional teams.",
+        "technologies": [
+          "MS Project",
+          "Requirements Analysis",
+          "ERP Dingxin System"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "SOK Enterprise Master",
+        "period": "Jan 2026 – Apr 2026",
+        "description": "Enterprise management platform combining 104 Business Master and system analysis features.",
+        "technologies": ["Nuxt.js", "TypeScript", "Quasar"]
+      },
+      {
+        "name": "EMS Exhibition Platform",
+        "period": "Apr 2025 – Present",
+        "description": "Modern exhibition management platform to streamline events and workflows.",
+        "technologies": ["Vue.js", "Vite", "NaiveUI", "TypeScript"]
+      },
+      {
+        "name": "EPOS Recall E-Signature System",
+        "period": "Apr 2025 – Present",
+        "description": "Secure and transparent e-signature system with audit mechanisms.",
+        "technologies": ["Vue.js", "Quasar", "TypeScript"]
+      },
+      {
+        "name": "MAMP Medical Association Platform",
+        "period": "Apr 2025 – Present",
+        "description": "Manages members, events, and data for medical associations.",
+        "technologies": ["Vue.js", "Quasar", "Vite", "TypeScript"],
+        "url": "https://mamp.confapps.com/mamp-web-admin/#/login?redirect=/dashboard"
+      },
+      {
+        "name": "AMS Association System",
+        "period": "Apr 2025 – Present",
+        "description": "Comprehensive association management and planning system.",
+        "technologies": ["Vue.js", "Quasar", "Vite", "TypeScript"],
+        "url": "https://taoms.confapps.com/ams-web-admin/#/login"
+      },
+      {
+        "name": "Oral & Maxillofacial Surgery Website",
+        "period": "Apr 2025 – Present",
+        "description": "Official website with real-time info and member services.",
+        "technologies": ["Vue.js", "Nuxt.js", "TypeScript"],
+        "url": "https://www.aoms.org.tw/zh-tw"
+      },
+      {
+        "name": "CECW Website Revamp",
+        "period": "Sep 2024 – Mar 2025",
+        "description": "Government website modernization with WCAG 2.1 compliance.",
+        "technologies": ["Vue.js", "Nuxt.js", "TypeScript"],
+        "url": "https://web.cec.gov.tw/central"
+      },
+      {
+        "name": "CECW Backend Management",
+        "period": "Sep 2024 – Feb 2025",
+        "description": "Flexible CMS for government website content management.",
+        "technologies": ["Vue.js", "Quasar", "Vite", "TypeScript"]
+      },
+      {
+        "name": "MSP3 Messaging Platform",
+        "description": "Public platform ensuring emergency communication.",
+        "technologies": ["Vue.js", "TypeScript", "Docker"],
+        "url": "https://msp2.msp.tw/index"
+      }
+    ],
+    "education": [
+      {
+        "school": "Fu Jen Catholic University",
+        "degree": "B.A. in Landscape Architecture",
+        "period": "Jun 2022",
+        "relevant_courses": [
+          "CAD Design",
+          "3D Modeling & Rendering",
+          "Project Management",
+          "Creative Thinking",
+          "User-Centered Design"
+        ]
+      }
+    ],
+    "certifications": [
+      {
+        "name": "Front-End Development Fundamentals",
+        "issuer": "Institute for Information Industry, Weiyu",
+        "date": "Jul 2024"
+      }
+    ]
+  }
+}

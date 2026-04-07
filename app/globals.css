@@ -1,32 +1,7 @@
 @import 'tailwindcss';
 
-/* 黑/橘主題 */
-:root,
-[data-theme='dark-orange'] {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --primary: #ff6b35;
-  --primary-hover: #ff8c5a;
-  --secondary: #1a1a1a;
-  --border: #333333;
-  --text-muted: #a0a0a0;
-
-  /* 對應顏色變數 */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-primary-hover: var(--primary-hover);
-  --color-secondary: var(--secondary);
-  --color-border: var(--border);
-  --color-text-muted: var(--text-muted);
-
-  /* 字型 */
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-/* 藍/白主題 */
-[data-theme='blue-white'] {
+/* ✅ 預設主題:藍/白主題(這會在載入時立即顯示) */
+:root {
   --background: #ffffff;
   --foreground: #1e3a8a;
   --primary: #3b82f6;
@@ -47,6 +22,46 @@
   /* 字型 */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+}
+
+/* ✅ 黑/橘主題(當 data-theme="dark-orange" 時覆蓋預設值) */
+[data-theme='dark-orange'] {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --primary: #ff6b35;
+  --primary-hover: #ff8c5a;
+  --secondary: #1a1a1a;
+  --border: #333333;
+  --text-muted: #a0a0a0;
+
+  /* 對應顏色變數 */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-border: var(--border);
+  --color-text-muted: var(--text-muted);
+}
+
+/* ✅ 可選:明確定義藍/白主題(與預設相同,但更清晰) */
+[data-theme='blue-white'] {
+  --background: #ffffff;
+  --foreground: #1e3a8a;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --secondary: #eff6ff;
+  --border: #dbeafe;
+  --text-muted: #64748b;
+
+  /* 對應顏色變數 */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-border: var(--border);
+  --color-text-muted: var(--text-muted);
 }
 
 body {

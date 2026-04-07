@@ -3,7 +3,13 @@
     "hero": {
       "greeting": "Hello",
       "title": "I'm Justin",
-      "subtitle": "Frontend Developer",
+      "subtitles": [
+        "Frontend Developer",
+        "Web Designer",
+        "ERP System Development",
+        "Tech Enthusiast",
+        "Lifelong Learner"
+      ],
       "intro": "Welcome to my portfolio website...",
       "description": "Passionate frontend developer creating exceptional web experiences with modern technologies.",
       "viewPortfolio": "View Portfolio",
@@ -26,11 +32,13 @@
     "portfolio": {
       "title": "Featured Projects",
       "subtitle": "Professional solutions built with modern technologies",
+      "viewPortfolio": "View Portfolio",
       "projects": {
         "project1": {
           "title": "EMS Exhibition Management Platform",
           "tech": "Vue.js, vite, NaiveUI, TypeScript",
-          "description": "Modern exhibition management platform with complete event management features"
+          "description": "Modern exhibition management platform with complete event management features",
+          "image": "/img/ems admin.png"
         },
         "project2": {
           "title": "EPOS Electronic Petition System",
@@ -40,32 +48,41 @@
         "project3": {
           "title": "MAMP Medical Association Management Platform",
           "tech": "Vue.js, Quasar, vite, TypeScript",
-          "description": "Professional medical association management system improving organizational efficiency"
+          "description": "Professional medical association management system improving organizational efficiency",
+          "url": "https://mamp.confapps.com/mamp-web-admin/#/login?redirect=/dashboard",
+          "image": "/img/mamp admin.png"
         },
         "project4": {
           "title": "AMS Association Management System",
           "tech": "Vue.js, Quasar, Vite, TypeScript",
-          "description": "Comprehensive association management solution streamlining operations"
+          "description": "Comprehensive association management solution streamlining operations",
+          "url": "https://taoms.confapps.com/ams-web-admin/#/login",
+          "image": "/img/ams web.png"
         },
         "project5": {
           "title": "Taiwan Oral & Maxillofacial Surgery Association Website",
           "tech": "Vue.js, Nuxt.js, TypeScript",
-          "description": "Professional medical association official website providing information services"
+          "description": "Professional medical association official website providing information services",
+          "url": "https://www.aoms.org.tw/zh-tw"
         },
         "project6": {
           "title": "Central Election Commission Website Redesign",
           "tech": "Vue.js, Nuxt.js, TypeScript",
-          "description": "Government website modernization improving UX, WCAG 2.1 compliant"
+          "description": "Government website modernization improving UX, WCAG 2.1 compliant",
+          "url": "https://web.cec.gov.tw/central"
         },
         "project7": {
           "title": "CEC Website Admin Panel",
           "tech": "Vue.js, Quasar, Vite, TypeScript",
-          "description": "Flexible admin system ensuring efficient website content management"
+          "description": "Flexible admin system ensuring efficient website content management",
+          "image": "/img/cecw admin.png"
         },
         "project8": {
           "title": "Fire Department Message Platform Resilience Project",
           "tech": "Vue.js, TypeScript, Docker",
-          "description": "Public messaging platform ensuring emergency communication needs"
+          "description": "Public messaging platform ensuring emergency communication needs",
+          "url": "https://msp2.msp.tw/index",
+          "image": "/img/msp admin.png"
         }
       }
     },
@@ -109,8 +126,8 @@
       "title": "Contact Me",
       "subtitle": "Feel free to reach out for collaboration or project inquiries.",
       "form": {
-        "name": "Name",
-        "namePlaceholder": "Enter your name",
+        "name": "Name / company name",
+        "namePlaceholder": "Enter your name / company name",
         "email": "Email",
         "emailPlaceholder": "Enter your email",
         "message": "Message",

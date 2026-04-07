@@ -3,7 +3,13 @@
     "hero": {
       "greeting": "你好",
       "title": "我是 Justin",
-      "subtitle": "前端開發者",
+      "subtitles": [
+        "前端開發者",
+        "網頁設計師",
+        "ERP系統開發",
+        "技術愛好者",
+        "持續學習者"
+      ],
       "intro": "歡迎來到我的個人作品集網站...",
       "description": "熱情的前端開發者,使用現代技術創建卓越的網頁體驗。",
       "viewPortfolio": "查看作品集",
@@ -26,11 +32,13 @@
     "portfolio": {
       "title": "參與過的專案",
       "subtitle": "運用現代化技術打造的專業解決方案",
+      "viewPortfolio": "查看專案詳情",
       "projects": {
         "project1": {
           "title": "EMS 會展平台計畫",
           "tech": "Vue.js, vite, NaiveUI, TypeScript",
-          "description": "現代化的會展管理平台,提供完整的活動管理功能"
+          "description": "現代化的會展管理平台,提供完整的活動管理功能",
+          "image": "/img/ems admin.png"
         },
         "project2": {
           "title": "EPOS 中選會罷免電子連署系統",
@@ -40,22 +48,30 @@
         "project3": {
           "title": "MAMP 醫學會管理平台",
           "tech": "Vue.js, Quasar, vite, TypeScript",
-          "description": "專業的醫療學會管理系統,提升組織運營效率"
+          "description": "專業的醫療學會管理系統,提升組織運營效率",
+          "url": "https://mamp.confapps.com/mamp-web-admin/#/login?redirect=/dashboard",
+          "image": "/img/mamp admin.png"
         },
         "project4": {
           "title": "AMS 會務管理系統",
           "tech": "Vue.js, Quasar, Vite, TypeScript",
-          "description": "全面的會務管理解決方案,便利組織運營流程"
+          "description": "全面的會務管理解決方案,便利組織運營流程",
+          "url": "https://taoms.confapps.com/ams-web-admin/#/login",
+          "image": "/img/ams admin.png"
         },
         "project5": {
           "title": "中華民國口腔顎面外科學會官網",
           "tech": "Vue.js, Nuxt.js, TypeScript",
-          "description": "專業的醫療學會官方網站,提供資訊服務"
+          "description": "專業的醫療學會官方網站,提供資訊服務",
+          "url": "https://www.aoms.org.tw/zh-tw",
+          "image": "/img/ams web.png"
         },
         "project6": {
           "title": "CECW 中選會官網再造",
           "tech": "Vue.js, Nuxt.js, TypeScript",
-          "description": "政府機關網站現代化改造,提升用戶體驗,符合無障礙標章2.1"
+          "description": "政府機關網站現代化改造,提升用戶體驗,符合無障礙標章2.1",
+          "url": "https://web.cec.gov.tw/central",
+           "image": "/img/cecw admin.png"
         },
         "project7": {
           "title": "CECW 中選會官網後台管理",
@@ -65,7 +81,9 @@
         "project8": {
           "title": "MSP3 消防署訊息平台海外第三中心強韌案",
           "tech": "Vue.js, TypeScript, Docker",
-          "description": "提供民眾可用性的訊息平台,保障緊急通訊需求"
+          "description": "提供民眾可用性的訊息平台,保障緊急通訊需求",
+          "url": "https://msp2.msp.tw/index",
+          "image": "/img/msp admin.png"
         }
       }
     },
@@ -109,8 +127,8 @@
       "title": "聯絡我",
       "subtitle": "歡迎合作或專案洽詢,請隨時與我聯繫。",
       "form": {
-        "name": "姓名",
-        "namePlaceholder": "請輸入您的姓名",
+        "name": "姓名 / 公司名稱",
+        "namePlaceholder": "請輸入您的姓名 / 公司名稱",
         "email": "電子信箱",
         "emailPlaceholder": "請輸入您的電子信箱",
         "message": "訊息內容",

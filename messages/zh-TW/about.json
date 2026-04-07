@@ -1,0 +1,238 @@
+{
+  "about": {
+    "title": "個人履歷",
+    "actions": {
+      "download": "下載 PDF 履歷"
+    },
+    "profile": {
+      "name": "黃政宏 Justin",
+      "role": "前端工程師 / Front-End Developer",
+      "location": "新北市，台灣",
+      "email": "justin405450816@gmail.com",
+      "phone": "+886 975-960-138",
+      "experience": "1.5+ 年經驗",
+      "photo": "",
+      "summary": "充滿熱忱的前端開發工程師，使用現代前端技術，包括 Vue.js、Nuxt.js、TypeScript 和 Tailwind CSS。具備專案管理經驗，與後端討論api資料結構...等，能夠從需求分析到產品交付全程參與。致力於創造優質的使用者體驗，並持續學習新技術以保持競爭力。"
+    },
+    "sections": {
+      "summary": "個人簡介",
+      "skills": "專業技能",
+      "experience": "工作經歷",
+      "education": "學歷背景",
+      "projects": "專案作品",
+      "links": "相關連結",
+      "languages": "語言能力",
+      "certifications": "專業證照",
+      "achievements": "主要成就",
+      "relevant_courses": "相關課程"
+    },
+    "links": {
+      "github": "GitHub 程式碼庫",
+      "linkedin": "LinkedIn 職業檔案"
+    },
+    "skills": [
+      {
+        "category": "前端開發",
+        "items": [
+          "Vue 3",
+          "Nuxt 3",
+          "TypeScript",
+          "JavaScript (ES6+)",
+          "HTML5",
+          "CSS3",
+          "Sass/SCSS",
+          "Tailwind CSS",
+          "PrimeVue",
+          "Quasar Framework",
+          "Bootstrap",
+          "Next",
+          "React"
+        ]
+      },
+      {
+        "category": "後端與工具",
+        "items": [
+          "PHP",
+          "MySQL",
+          "PostgreSQL",
+          "RESTful API",
+          "Node",
+          "Git",
+          "Docker",
+          "CI/CD",
+          "Webpack",
+          "Vite"
+        ]
+      },
+      {
+        "category": "開發工具",
+        "items": [
+          "VS Code",
+          "claude code",
+          "cursor",
+          "Figma",
+          "Adobe Creative Suite",
+          "Postman",
+          "Chrome DevTools",
+          "NPM",
+          "ApiFox"
+        ]
+      },
+      {
+        "category": "專案管理",
+        "items": ["Notion", "需求分析", "時程規劃", "跨部門協調"]
+      }
+    ],
+    "languages": [
+      {
+        "name": "中文"
+      },
+      {
+        "name": "英文"
+      }
+    ],
+    "experience": [
+      {
+        "company": "昇晉整合有限公司",
+        "role": "前端工程師",
+        "period": "2024年9月 – 至今",
+        "desc": "負責企業級網頁應用程式的前端開發，使用現代化技術棧打造高效能、可維護的使用者介面。",
+        "achievements": [
+          "使用 Vue 3 + TypeScript + Nuxt 3 開發多個企業內部系統",
+          "導入 Tailwind CSS 與 Quasar 元件庫，建立統一的設計系統",
+          "優化前端效能，使用者體驗大幅改善",
+          "協助建立前端開發規範與 ESLint 配置，提升程式碼品質",
+          "參與 CI/CD 流程建立，實現自動化部署與測試"
+        ],
+        "technologies": [
+          "Vue 3",
+          "Nuxt 3",
+          "TypeScript",
+          "Tailwind CSS",
+          "Quasar",
+          "Vite",
+          "Pinia",
+          "Vue Router"
+        ]
+      },
+      {
+        "company": "財團法人資訊工業策進會",
+        "role": "軟體工程師培訓學員",
+        "period": "2024年3月 – 2024年7月",
+        "desc": "接受全方位軟體開發培訓，從前端到後端、從設計到部署的完整學習歷程。",
+        "achievements": [
+          "完成為期 5 個月的密集程式設計訓練，涵蓋前後端全棧開發",
+          "使用 JavaScript、PHP、MySQL 完成電商平台專題，獲得優秀評價",
+          "學習 Docker 容器化技術與 Git 版本控制，建立良好開發習慣",
+          "參與團隊協作專案，培養 Agile 開發流程經驗",
+          "完成 Bootstrap 響應式網頁設計，掌握 RWD 開發技巧"
+        ],
+        "technologies": [
+          "JavaScript",
+          "PHP",
+          "MySQL",
+          "Bootstrap",
+          "Git",
+          "HTML5",
+          "CSS3",
+          "Vue 3",
+          "Vue 2"
+        ]
+      },
+      {
+        "company": "茂利科技有限公司",
+        "role": "專案經理 (PM)",
+        "period": "2022年6月 – 2024年2月",
+        "desc": "負責多項硬體pcb板開發專案的規劃、執行與管控，確保專案如期完成並符合品質標準。",
+        "achievements": [
+          "建立標準化的專案管理流程，縮短專案週期",
+          "協調作業員、客戶、廠商等跨職能團隊，提升團隊協作效率",
+          "導入敏捷開發方法論，提升團隊生產力與產品品質"
+        ],
+        "technologies": ["MS Project", "需求分析", "ERP鼎新系統"]
+      }
+    ],
+    "projects": [
+      {
+        "name": "SOK 企業大師",
+        "period": "2026年1月 – 2026年4月",
+        "description": "結合104人企業大師與企業系統分析圖表功能，打造企業管理平台。",
+        "technologies": ["Nuxt.js", "TypeScript", "Quasar"]
+      },
+      {
+        "name": "EMS 會展平台計畫",
+        "period": "2025年4月 – 至今",
+        "description": "設計並開發現代化的會展管理平台，提供完整活動管理功能，支援多種業務流程，提升組織效率。",
+        "technologies": ["Vue.js", "Vite", "NaiveUI", "TypeScript"],
+        "url": "https://www.codeloop.com.tw/dev/ems-web-admin#/login?redirect=/web/webManage"
+      },
+      {
+        "name": "EPOS 中選會罷免電子連署系統",
+        "period": "2025年4月 – 至今",
+        "description": "打造安全且透明的電子連署系統，確保投票過程公正且具備完整審核機制。",
+        "technologies": ["Vue.js", "Quasar", "TypeScript"]
+      },
+      {
+        "name": "MAMP 醫學會管理平台",
+        "period": "2025年4月 – 至今",
+        "description": "開發專業的醫療學會管理系統，整合會員、會務及資料維護功能，提高組織運作效率。",
+        "technologies": ["Vue.js", "Quasar", "Vite", "TypeScript"],
+        "url": "https://mamp.confapps.com/mamp-web-admin/#/login?redirect=/dashboard"
+      },
+      {
+        "name": "AMS 會務管理系統",
+        "period": "2025年4月 – 至今",
+        "description": "提供完整會務管理解決方案，便利組織運營流程與活動規劃。",
+        "technologies": ["Vue.js", "Quasar", "Vite", "TypeScript"],
+        "url": "https://taoms.confapps.com/ams-web-admin/#/login"
+      },
+      {
+        "name": "中華民國口腔顎面外科學會官網",
+        "period": "2025年4月 – 至今",
+        "description": "建置專業醫療學會官方網站，提供即時資訊與會員服務，強化對外形象。",
+        "technologies": ["Vue.js", "Nuxt.js", "TypeScript"],
+        "url": "https://www.aoms.org.tw/zh-tw"
+      },
+      {
+        "name": "CECW 中選會官網再造",
+        "period": "2024年9月 – 2025年3月",
+        "description": "政府機關網站現代化改造，提升用戶體驗並符合無障礙標準2.1規範。",
+        "technologies": ["Vue.js", "Nuxt.js", "TypeScript"],
+        "url": "https://web.cec.gov.tw/central"
+      },
+      {
+        "name": "CECW 中選會官網後台管理",
+        "period": "2024年9月 – 2025年2月",
+        "description": "開發靈活可調整的後台管理系統，提升網站內容管理效率與安全性。",
+        "technologies": ["Vue.js", "Quasar", "Vite", "TypeScript"]
+      },
+      {
+        "name": "MSP3 內政部消防署訊息服務台",
+        "description": "確保緊急通訊的公共平台。",
+        "technologies": ["Vue.js", "TypeScript", "Docker"],
+        "url": "https://msp2.msp.tw/index"
+      }
+    ],
+    "education": [
+      {
+        "school": "輔仁大學",
+        "degree": "景觀設計學系 學士學位",
+        "period": "2022年6月",
+        "relevant_courses": [
+          "電腦輔助設計",
+          "3D 建模與渲染",
+          "專案管理概論",
+          "創意思考與設計",
+          "使用者設計"
+        ]
+      }
+    ],
+    "certifications": [
+      {
+        "name": "前端開發基礎認證",
+        "issuer": "資策會、緯育",
+        "date": "2024年7月"
+      }
+    ]
+  }
+}

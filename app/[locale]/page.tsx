@@ -1,17 +1,17 @@
 import { getTranslations } from 'next-intl/server';
-import Nav from '@/app/components/Nav';
-import Footer from '@/app/components/Footer';
-import HomeClient from '@/app/components/HomeClient';
+import Nav from '@/app/components/layout/Nav';
+import Footer from '@/app/components/layout/Footer';
+import HomeClient from '@/app/view/HomeClient';
+import Image from 'next/image';
 
 export default async function Home() {
   const t = await getTranslations('Home');
 
-  // 準備所有翻譯資料
   const translations = {
     hero: {
       greeting: t('hero.greeting'),
       title: t('hero.title'),
-      subtitle: t('hero.subtitle'),
+      subtitles: t.raw('hero.subtitles') as string[],
       description: t('hero.description'),
       viewPortfolio: t('hero.viewPortfolio'),
       contactMe: t('hero.contactMe'),
@@ -33,48 +33,14 @@ export default async function Home() {
     portfolio: {
       title: t('portfolio.title'),
       subtitle: t('portfolio.subtitle'),
-      projects: [
-        {
-          title: t('portfolio.projects.project1.title'),
-          tech: t('portfolio.projects.project1.tech'),
-          description: t('portfolio.projects.project1.description'),
-        },
-        {
-          title: t('portfolio.projects.project2.title'),
-          tech: t('portfolio.projects.project2.tech'),
-          description: t('portfolio.projects.project2.description'),
-        },
-        {
-          title: t('portfolio.projects.project3.title'),
-          tech: t('portfolio.projects.project3.tech'),
-          description: t('portfolio.projects.project3.description'),
-        },
-        {
-          title: t('portfolio.projects.project4.title'),
-          tech: t('portfolio.projects.project4.tech'),
-          description: t('portfolio.projects.project4.description'),
-        },
-        {
-          title: t('portfolio.projects.project5.title'),
-          tech: t('portfolio.projects.project5.tech'),
-          description: t('portfolio.projects.project5.description'),
-        },
-        {
-          title: t('portfolio.projects.project6.title'),
-          tech: t('portfolio.projects.project6.tech'),
-          description: t('portfolio.projects.project6.description'),
-        },
-        {
-          title: t('portfolio.projects.project7.title'),
-          tech: t('portfolio.projects.project7.tech'),
-          description: t('portfolio.projects.project7.description'),
-        },
-        {
-          title: t('portfolio.projects.project8.title'),
-          tech: t('portfolio.projects.project8.tech'),
-          description: t('portfolio.projects.project8.description'),
-        },
-      ],
+      viewPortfolio: t('portfolio.viewPortfolio'),
+      projects: Object.values(t.raw('portfolio.projects') as Record<string, any>).map((p: any) => ({
+        title: p.title || '',
+        tech: p.tech || '',
+        description: p.description || '',
+        url: p.url || undefined,
+        image: p.image || undefined,
+      })),
     },
     skills: {
       title: t('skills.title'),
@@ -120,12 +86,14 @@ export default async function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Nav />
-      <main className="flex-grow">
-        <HomeClient translations={translations} />
-      </main>
-      <Footer />
+    <div>
+      <div className="flex flex-col min-h-screen">
+        <Nav />
+        <main className="flex-grow">
+          <HomeClient translations={translations} />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }
