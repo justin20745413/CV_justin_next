@@ -1,11 +1,12 @@
 import { getTranslations } from 'next-intl/server';
 import Nav from '@/app/components/layout/Nav';
-import AboutClient, { AboutData } from '@/app/view/AboutClient';
+import AboutClient from '@/app/view/AboutClient';
+import { Abouttranslation } from '@/app/models/Abouttranslation';
 
 export default async function AboutPage() {
   const t = await getTranslations('about');
 
-  const aboutData: AboutData = {
+  const aboutData: Abouttranslation = {
     title: t('title'),
     actions: {
       download: t('actions.download'),
@@ -36,12 +37,12 @@ export default async function AboutPage() {
       github: t('links.github'),
       linkedin: t('links.linkedin'),
     },
-    skills: t.raw('skills') as AboutData['skills'],
-    languages: t.raw('languages') as AboutData['languages'],
-    experience: t.raw('experience') as AboutData['experience'],
-    projects: t.raw('projects') as AboutData['projects'],
-    education: t.raw('education') as AboutData['education'],
-    certifications: t.raw('certifications') as AboutData['certifications'],
+    skills: t.raw('skills') as Abouttranslation['skills'],
+    languages: t.raw('languages') as Abouttranslation['languages'],
+    experience: t.raw('experience') as Abouttranslation['experience'],
+    projects: t.raw('projects') as Abouttranslation['projects'],
+    education: t.raw('education') as Abouttranslation['education'],
+    certifications: t.raw('certifications') as Abouttranslation['certifications'],
   };
 
   return (
