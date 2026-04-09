@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/intl/routing';
 import { ThemeProvider } from '@/app/components/ThemeProvider';
 import '../globals.css';
+import { Analytics } from '@vercel/analytics/next';
 
 export function generateStaticParams() {
   return routing.locales.map(locale => ({ locale }));
@@ -55,7 +56,8 @@ export async function generateMetadata({
     },
     openGraph: {
       title: 'Justin | Frontend Engineer',
-      description: 'Explore the portfolio of Justin, a frontend engineer dedicated to modern web technologies.',
+      description:
+        'Explore the portfolio of Justin, a frontend engineer dedicated to modern web technologies.',
       url: baseUrl,
       siteName: 'Justin Portfolio',
       locale: locale === 'zh-TW' ? 'zh_TW' : 'en_US',
@@ -102,6 +104,7 @@ export default async function LocaleLayout({
         <ThemeProvider>
           <NextIntlClientProvider messages={messages}>
             {children}
+            <Analytics />
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>
