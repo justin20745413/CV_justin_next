@@ -40,6 +40,7 @@ export interface Abouttranslation {
     description: string;
     technologies: string[];
     url?: string;
+    image?: string;
   }>;
   education: Array<{
     school: string;

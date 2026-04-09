@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import Nav from '@/app/components/layout/Nav';
 import Footer from '@/app/components/layout/Footer';
 import HomeClient from '@/app/view/HomeClient';
+import { HomeTranslations } from '@/app/models/Hometranslation';
 
 export async function generateMetadata({
   params,
@@ -22,7 +23,7 @@ export default async function Home({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  await params;
   const t = await getTranslations('Home');
 
   const jsonLd = {
@@ -47,7 +48,7 @@ export default async function Home({
     description: t('hero.description'),
   };
 
-  const translations = {
+  const translations: HomeTranslations = {
     hero: {
       greeting: t('hero.greeting'),
       title: t('hero.title'),
@@ -75,8 +76,11 @@ export default async function Home({
       subtitle: t('portfolio.subtitle'),
       viewPortfolio: t('portfolio.viewPortfolio'),
       projects: Object.values(
-        t.raw('portfolio.projects') as Record<string, any>
-      ).map((p: any) => ({
+        t.raw('portfolio.projects') as Record<
+          string,
+          HomeTranslations['portfolio']['projects'][number]
+        >
+      ).map(p => ({
         title: p.title || '',
         tech: p.tech || '',
         description: p.description || '',
@@ -136,7 +140,7 @@ export default async function Home({
       <div>
         <div className="flex flex-col min-h-screen">
           <Nav />
-          <main className="flex-grow">
+          <main className="grow">
             <HomeClient translations={translations} />
           </main>
           <Footer />
