@@ -60,13 +60,17 @@ export default function AboutClient({ about }: { about: Abouttranslation }) {
         useCORS: true,
         logging: false,
       });
+      const pdfPageHeight = pdf.internal.pageSize.getHeight();
+      const maxH2 = pdfPageHeight - margin * 2;
+      const naturalH2 = (canvas2.height * contentWidth) / canvas2.width;
+      const scale2 = naturalH2 > maxH2 ? maxH2 / naturalH2 : 1;
       pdf.addImage(
         canvas2.toDataURL('image/jpeg', 0.98),
         'JPEG',
         margin,
         margin,
-        contentWidth,
-        (canvas2.height * contentWidth) / canvas2.width
+        contentWidth * scale2,
+        Math.min(naturalH2, maxH2)
       );
 
       noPrintElements.forEach(el => {
@@ -230,7 +234,7 @@ export default function AboutClient({ about }: { about: Abouttranslation }) {
           </div>
 
           {/* ══ PAGE 2 ══ */}
-          <div className="cv-page cv-a4 mt-4">
+          <div className="cv-page cv-a4 cv-page-2 mt-4">
             {/* Mini header */}
             <div className="r-page2-header">
               <span className="r-name" style={{ fontSize: '14px' }}>
@@ -586,6 +590,55 @@ export default function AboutClient({ about }: { about: Abouttranslation }) {
           .r-link-icon {
             width: 10px;
             height: 10px;
+          }
+
+          /* ── Page 2 compact layout (prevent A4 overflow) ── */
+          .cv-page-2 {
+            padding: 24px 36px;
+          }
+          .cv-page-2 .r-section {
+            margin-bottom: 10px;
+          }
+          .cv-page-2 .r-sec-title {
+            margin-bottom: 6px;
+            padding-bottom: 2px;
+          }
+          .cv-page-2 .r-skills-grid {
+            gap: 3px;
+          }
+          .cv-page-2 .r-skill-row {
+            gap: 4px;
+          }
+          .cv-page-2 .r-exp-item {
+            margin-bottom: 6px;
+            padding-bottom: 6px;
+          }
+          .cv-page-2 .r-exp-desc {
+            font-size: 13px;
+            line-height: 1.5;
+            margin-top: 1px;
+            margin-bottom: 2px;
+          }
+          .cv-page-2 .r-tags {
+            margin-top: 3px;
+            gap: 3px;
+          }
+          .cv-page-2 .r-tag {
+            font-size: 12px;
+            padding: 1px 7px;
+          }
+          .cv-page-2 .r-proj-grid {
+            gap: 7px;
+          }
+          .cv-page-2 .r-proj-item {
+            padding: 6px 8px;
+          }
+          .cv-page-2 .r-two-col-bottom {
+            gap: 16px;
+          }
+          .cv-page-2 .r-page2-header {
+            padding-bottom: 8px;
+            margin-bottom: 10px;
           }
 
           /* ── Print ── */

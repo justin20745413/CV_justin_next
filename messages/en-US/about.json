@@ -58,8 +58,10 @@
           "REST API",
           "Node",
           "Git",
+          "GitLab",
           "Docker",
           "CI/CD",
+          "Jenkins",
           "Webpack",
           "Vite"
         ]
@@ -84,7 +86,8 @@
           "Notion",
           "Requirements Analysis",
           "Timeline Planning",
-          "Cross-Team Coordination"
+          "Cross-Team Coordination",
+          "Scrum"
         ]
       }
     ],

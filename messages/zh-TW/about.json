@@ -58,8 +58,10 @@
           "RESTful API",
           "Node",
           "Git",
+          "GitLab",
           "Docker",
           "CI/CD",
+          "Jenkins",
           "Webpack",
           "Vite"
         ]
@@ -80,7 +82,7 @@
       },
       {
         "category": "專案管理",
-        "items": ["Notion", "需求分析", "時程規劃", "跨部門協調"]
+        "items": ["Notion", "需求分析", "時程規劃", "跨部門協調","敏捷開發"]
       }
     ],
     "languages": [
