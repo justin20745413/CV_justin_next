@@ -22,13 +22,20 @@ export default function AboutClient({ about }: { about: Abouttranslation }) {
     setIsGenerating(true);
     try {
       const { jsPDF } = await import('jspdf');
+
+      // 強制進入電腦版排版模式進行截圖
+      container.classList.add('force-desktop');
+
       const page1 = container.querySelector(
         '.cv-page:nth-child(1)'
       ) as HTMLElement;
       const page2 = container.querySelector(
         '.cv-page:nth-child(2)'
       ) as HTMLElement;
-      if (!page1 || !page2) return;
+      if (!page1 || !page2) {
+        container.classList.remove('force-desktop');
+        return;
+      }
 
       const noPrintElements = container.querySelectorAll('.no-print');
       noPrintElements.forEach(el => {
@@ -44,6 +51,7 @@ export default function AboutClient({ about }: { about: Abouttranslation }) {
         scale: 2,
         useCORS: true,
         logging: false,
+        windowWidth: 1024, // 確保渲染寬度
       });
       pdf.addImage(
         canvas1.toDataURL('image/jpeg', 0.98),
@@ -59,6 +67,7 @@ export default function AboutClient({ about }: { about: Abouttranslation }) {
         scale: 2,
         useCORS: true,
         logging: false,
+        windowWidth: 1024,
       });
       const pdfPageHeight = pdf.internal.pageSize.getHeight();
       const maxH2 = pdfPageHeight - margin * 2;
@@ -76,8 +85,11 @@ export default function AboutClient({ about }: { about: Abouttranslation }) {
       noPrintElements.forEach(el => {
         (el as HTMLElement).style.display = '';
       });
-      window.open(pdf.output('bloburl') as unknown as string, '_blank');
+
+      container.classList.remove('force-desktop');
+      pdf.save('justin_cv.pdf');
     } catch (e) {
+      container.classList.remove('force-desktop');
       console.error(e);
     } finally {
       setIsGenerating(false);
@@ -87,33 +99,35 @@ export default function AboutClient({ about }: { about: Abouttranslation }) {
   return (
     <div>
       <NetworkBackground />
-      <div className="relative z-10">
-        {/* Page title */}
-        <div className="mb-6 my-5 no-print">
-          <h1 className="text-3xl font-bold ml-4 mt-6">{about.title}</h1>
-        </div>
+      {/* Page title */}
+      <div className="mb-6 my-5 no-print px-4 sm:px-6">
+        <h1 className="text-2xl sm:text-3xl font-bold ml-0 sm:ml-4 mt-6">
+          {about.title}
+        </h1>
+      </div>
 
-        {/* Download button */}
-        <button
-          className={`fixed top-21 right-5 z-50 inline-flex items-center gap-2 px-6 py-3 rounded-lg text-white font-medium shadow-lg transition-all no-print ${
-            mounted && theme === 'dark-orange'
-              ? 'bg-slate-700 hover:bg-slate-800'
-              : 'bg-blue-600 hover:bg-blue-700'
-          }`}
-          onClick={generatePdf}
-          disabled={isGenerating}
-        >
-          <span>{isGenerating ? '⏳' : '📄'}</span>
-          {about.actions.download}
-        </button>
+      {/* Download button */}
+      <button
+        className={`fixed top-20 sm:top-21 right-3 sm:right-5 z-40 inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 rounded-lg text-white text-sm sm:text-base font-medium shadow-lg transition-all no-print ${
+          mounted && theme === 'dark-orange'
+            ? 'bg-slate-700 hover:bg-slate-800'
+            : 'bg-blue-600 hover:bg-blue-700'
+        }`}
+        onClick={generatePdf}
+        disabled={isGenerating}
+      >
+        <span>{isGenerating ? '⏳' : '📄'}</span>
+        <span className="hidden sm:inline">{about.actions.download}</span>
+        <span className="sm:hidden">PDF</span>
+      </button>
 
-        <div ref={cvRef} className="cv-pages-container">
-          {/* ══ PAGE 1 ══ */}
-          <div className="cv-page cv-a4">
-            {/* ── Header ── */}
-            <div className="r-header">
-              {/* Avatar */}
-              {/* <div className="r-avatar">
+      <div ref={cvRef} className="cv-pages-container px-2 sm:px-0">
+        {/* ══ PAGE 1 ══ */}
+        <div className="cv-page cv-a4">
+          {/* ── Header ── */}
+          <div className="r-header">
+            {/* Avatar */}
+            {/* <div className="r-avatar">
                 {about.profile.photo ? (
                   <img
                     src={about.profile.photo}
@@ -126,112 +140,112 @@ export default function AboutClient({ about }: { about: Abouttranslation }) {
                   </svg>
                 )}
               </div> */}
-              {/* Name block */}
-              <div className="r-header-info">
-                <h2 className="r-name">{about.profile.name}</h2>
-                <p className="r-role">{about.profile.role}</p>
-                <div className="r-contacts">
-                  <span>{about.profile.location}</span>
-                  <span className="r-sep">·</span>
-                  <span>{about.profile.email}</span>
-                  <span className="r-sep">·</span>
-                  <span>{about.profile.phone}</span>
-                  <span className="r-sep">·</span>
-                  <span>{about.profile.experience}</span>
-                </div>
-                <div className="r-contacts no-print">
-                  <a
-                    href="https://github.com/justin20745413"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {about.links.github}
-                  </a>
-                  <span className="r-sep">·</span>
-                  <a
-                    href="https://www.linkedin.com/in/cheng-hung-huang-555718360/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {about.links.linkedin}
-                  </a>
-                </div>
+            {/* Name block */}
+            <div className="r-header-info">
+              <h2 className="r-name">{about.profile.name}</h2>
+              <p className="r-role">{about.profile.role}</p>
+              <div className="r-contacts">
+                <span>{about.profile.location}</span>
+                <span className="r-sep">·</span>
+                <span>{about.profile.email}</span>
+                <span className="r-sep">·</span>
+                <span>{about.profile.phone}</span>
+                <span className="r-sep">·</span>
+                <span>{about.profile.experience}</span>
+              </div>
+              <div className="r-contacts no-print">
+                <a
+                  href="https://github.com/justin20745413"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {about.links.github}
+                </a>
+                <span className="r-sep">·</span>
+                <a
+                  href="https://www.linkedin.com/in/cheng-hung-huang-555718360/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {about.links.linkedin}
+                </a>
               </div>
             </div>
-
-            {/* ── Summary ── */}
-            <div className="r-section">
-              <h3 className="r-sec-title">{about.sections.summary}</h3>
-              <p className="r-summary">{about.profile.summary}</p>
-            </div>
-
-            {/* ── Experience ── */}
-            <div className="r-section">
-              <h3 className="r-sec-title">{about.sections.experience}</h3>
-              {about.experience.map((job, i) => (
-                <div key={i} className="r-exp-item">
-                  <div className="r-exp-row">
-                    <div>
-                      <span className="r-exp-company">
-                        {i === 0 ? (
-                          <a
-                            href="https://www.sjis.com.tw/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {job.company}
-                          </a>
-                        ) : (
-                          job.company
-                        )}
-                      </span>
-                      <span className="r-exp-role"> — {job.role}</span>
-                    </div>
-                    <span className="r-exp-period">{job.period}</span>
-                  </div>
-                  <p className="r-exp-desc">{job.desc}</p>
-                  {job.achievements && (
-                    <ul className="r-bullets">
-                      {job.achievements.map((a, j) => (
-                        <li key={j}>{a}</li>
-                      ))}
-                    </ul>
-                  )}
-                  {job.technologies && (
-                    <div className="r-tags">
-                      {job.technologies.map((t, k) => (
-                        <span key={k} className="r-tag">
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {/* ── Education ── */}
-            <div className="r-section">
-              <h3 className="r-sec-title">{about.sections.education}</h3>
-              {about.education.map((edu, i) => (
-                <div key={i} className="r-exp-item">
-                  <div className="r-exp-row">
-                    <div>
-                      <span className="r-exp-company">{edu.school}</span>
-                      <span className="r-exp-role"> — {edu.degree}</span>
-                    </div>
-                    <span className="r-exp-period">{edu.period}</span>
-                  </div>
-                  {edu.relevant_courses && (
-                    <p className="r-exp-desc">
-                      <strong>{about.sections.relevant_courses}：</strong>
-                      {edu.relevant_courses.join('、')}
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
           </div>
+
+          {/* ── Summary ── */}
+          <div className="r-section">
+            <h3 className="r-sec-title">{about.sections.summary}</h3>
+            <p className="r-summary">{about.profile.summary}</p>
+          </div>
+
+          {/* ── Experience ── */}
+          <div className="r-section">
+            <h3 className="r-sec-title">{about.sections.experience}</h3>
+            {about.experience.map((job, i) => (
+              <div key={i} className="r-exp-item">
+                <div className="r-exp-row">
+                  <div>
+                    <span className="r-exp-company">
+                      {i === 0 ? (
+                        <a
+                          href="https://www.sjis.com.tw/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {job.company}
+                        </a>
+                      ) : (
+                        job.company
+                      )}
+                    </span>
+                    <span className="r-exp-role"> — {job.role}</span>
+                  </div>
+                  <span className="r-exp-period">{job.period}</span>
+                </div>
+                <p className="r-exp-desc">{job.desc}</p>
+                {job.achievements && (
+                  <ul className="r-bullets">
+                    {job.achievements.map((a, j) => (
+                      <li key={j}>{a}</li>
+                    ))}
+                  </ul>
+                )}
+                {job.technologies && (
+                  <div className="r-tags">
+                    {job.technologies.map((t, k) => (
+                      <span key={k} className="r-tag">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* ── Education ── */}
+          <div className="r-section">
+            <h3 className="r-sec-title">{about.sections.education}</h3>
+            {about.education.map((edu, i) => (
+              <div key={i} className="r-exp-item">
+                <div className="r-exp-row">
+                  <div>
+                    <span className="r-exp-company">{edu.school}</span>
+                    <span className="r-exp-role"> — {edu.degree}</span>
+                  </div>
+                  <span className="r-exp-period">{edu.period}</span>
+                </div>
+                {edu.relevant_courses && (
+                  <p className="r-exp-desc">
+                    <strong>{about.sections.relevant_courses}：</strong>
+                    {edu.relevant_courses.join('、')}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
 
           {/* ══ PAGE 2 ══ */}
           <div className="cv-page cv-a4 cv-page-2 mt-4">
@@ -245,330 +259,357 @@ export default function AboutClient({ about }: { about: Abouttranslation }) {
               </span>
             </div>
 
-            {/* ── Skills ── */}
-            <div className="r-section">
-              <h3 className="r-sec-title">{about.sections.skills}</h3>
-              <div className="r-skills-grid">
-                {about.skills.map((g, i) => (
-                  <div key={i} className="r-skill-row">
-                    <span className="r-skill-cat">{g.category}：</span>
-                    <div className="r-tags">
-                      {g.items.map((s, j) => (
-                        <span key={j} className="r-tag">
-                          {s}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ── Languages & Certifications ── */}
-            <div className="r-two-col-bottom">
-              <div className="r-section" style={{ flex: 1 }}>
-                <h3 className="r-sec-title">{about.sections.languages}</h3>
-                <div className="r-tags">
-                  {about.languages.map((l, i) => (
-                    <span key={i} className="r-tag">
-                      {l.name}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              {about.certifications && about.certifications.length > 0 && (
-                <div className="r-section" style={{ flex: 2 }}>
-                  <h3 className="r-sec-title">
-                    {about.sections.certifications}
-                  </h3>
-                  {about.certifications.map((c, i) => (
-                    <div key={i} className="r-exp-item">
-                      <div className="r-exp-row">
-                        <span className="r-exp-company">{c.name}</span>
-                        <span className="r-exp-period">{c.date}</span>
-                      </div>
-                      <p className="r-exp-desc">{c.issuer}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* ── Projects ── */}
-            <div className="r-section">
-              <h3 className="r-sec-title">{about.sections.projects}</h3>
-              <div className="r-proj-grid">
-                {about.projects.map((p, i) => (
-                  <div key={i} className="r-proj-item">
-                    <div className="r-exp-row">
-                      <span className="r-exp-company">
-                        {p.name}
-                        {p.url && (
-                          <a
-                            href={p.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="r-proj-link no-print"
-                            title="前往專案"
-                          >
-                            <svg
-                              className="r-link-icon"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                              />
-                            </svg>
-                          </a>
-                        )}
+          {/* ── Skills ── */}
+          <div className="r-section">
+            <h3 className="r-sec-title">{about.sections.skills}</h3>
+            <div className="r-skills-grid">
+              {about.skills.map((g, i) => (
+                <div key={i} className="r-skill-row">
+                  <span className="r-skill-cat">{g.category}：</span>
+                  <div className="r-tags">
+                    {g.items.map((s, j) => (
+                      <span key={j} className="r-tag">
+                        {s}
                       </span>
-                      {p.period && (
-                        <span className="r-exp-period">{p.period}</span>
-                      )}
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Languages & Certifications ── */}
+          <div className="r-two-col-bottom">
+            <div className="r-section" style={{ flex: 1 }}>
+              <h3 className="r-sec-title">{about.sections.languages}</h3>
+              <div className="r-tags">
+                {about.languages.map((l, i) => (
+                  <span key={i} className="r-tag">
+                    {l.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+            {about.certifications && about.certifications.length > 0 && (
+              <div className="r-section" style={{ flex: 2 }}>
+                <h3 className="r-sec-title">{about.sections.certifications}</h3>
+                {about.certifications.map((c, i) => (
+                  <div key={i} className="r-exp-item">
+                    <div className="r-exp-row">
+                      <span className="r-exp-company">{c.name}</span>
+                      <span className="r-exp-period">{c.date}</span>
                     </div>
-                    <p className="r-exp-desc">{p.description}</p>
-                    <div className="r-tags">
-                      {p.technologies.map((t, j) => (
-                        <span key={j} className="r-tag">
-                          {t}
-                        </span>
-                      ))}
-                    </div>
+                    <p className="r-exp-desc">{c.issuer}</p>
                   </div>
                 ))}
               </div>
+            )}
+          </div>
+
+          {/* ── Projects ── */}
+          <div className="r-section">
+            <h3 className="r-sec-title">{about.sections.projects}</h3>
+            <div className="r-proj-grid">
+              {about.projects.map((p, i) => (
+                <div key={i} className="r-proj-item">
+                  <div className="r-exp-row">
+                    <span className="r-exp-company">
+                      {p.name}
+                      {p.url && (
+                        <a
+                          href={p.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="r-proj-link no-print"
+                          title="前往專案"
+                        >
+                          <svg
+                            className="r-link-icon"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                            />
+                          </svg>
+                        </a>
+                      )}
+                    </span>
+                    {p.period && (
+                      <span className="r-exp-period">{p.period}</span>
+                    )}
+                  </div>
+                  <p className="r-exp-desc">{p.description}</p>
+                  <div className="r-tags">
+                    {p.technologies.map((t, j) => (
+                      <span key={j} className="r-tag">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
+      </div>
 
-        <style jsx global>{`
-          /* ── Container ── */
-          .cv-pages-container {
-            width: 100%;
-          }
+      <style jsx global>{`
+        /* ── Container ── */
+        .cv-pages-container {
+          width: 100%;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+        }
 
-          .cv-a4 {
-            max-width: 794px;
-            min-height: 1123px;
-            background: #fff;
-            color: #111;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            font-size: 14px;
-            line-height: 1.6;
-            padding: 36px 40px;
-            margin: 0 auto;
-          }
+        .cv-a4 {
+          max-width: 794px;
+          min-height: 1123px;
+          background: #fff;
+          color: #111;
+          box-sizing: border-box;
+          font-family: 'Segoe UI', Arial, sans-serif;
+          font-size: 14px;
+          line-height: 1.6;
+          padding: 36px 40px;
+          margin: 0 auto;
+        }
 
-          /* ── Header ── */
-          .r-header {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            padding-bottom: 14px;
-            margin-bottom: 14px;
-            border-bottom: 2px solid #111;
-          }
-          .r-avatar {
-            width: 76px;
-            height: 76px;
-            border-radius: 50%;
-            border: 1.5px solid #ccc;
-            overflow: hidden;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f5f5f5;
-          }
-          .r-avatar-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-          .r-avatar-svg {
-            width: 48px;
-            height: 48px;
-          }
-
-          .r-header-info {
-            flex: 1;
-          }
-          .r-name {
-            font-size: 24px;
-            font-weight: 700;
-            color: #111;
-            margin-bottom: 2px;
-          }
-          .r-role {
-            font-size: 14px;
-            color: #444;
-            font-style: italic;
-            margin-bottom: 5px;
-          }
-          .r-contacts {
+        /* ── RWD: mobile & tablet ── */
+        /* 當沒有 .force-desktop class 時才執行 RWD 樣式 */
+        @media (max-width: 860px) {
+          .cv-pages-container:not(.force-desktop) .cv-a4 {
+            min-width: 700px;
             font-size: 13px;
-            color: #444;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            align-items: center;
-            margin-top: 3px;
+            padding: 24px 28px;
           }
-          .r-contacts a {
-            color: #1a56db;
-            text-decoration: none;
-          }
-          .r-contacts a:hover {
-            text-decoration: underline;
-          }
-          .r-sep {
-            color: #aaa;
-          }
+        }
 
-          /* ── Section ── */
-          .r-section {
-            margin-bottom: 14px;
+        @media (max-width: 600px) {
+          .cv-pages-container:not(.force-desktop) .cv-a4 {
+            min-width: 600px;
+            font-size: 12px;
+            padding: 20px 22px;
           }
-          .r-sec-title {
-            font-size: 14px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: #111;
-            border-bottom: 1.5px solid #111;
-            padding-bottom: 3px;
-            margin-bottom: 8px;
+          .cv-pages-container:not(.force-desktop) .r-name {
+            font-size: 20px !important;
           }
+          .cv-pages-container:not(.force-desktop) .r-role {
+            font-size: 13px !important;
+          }
+          .cv-pages-container:not(.force-desktop) .r-proj-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
 
-          /* ── Summary ── */
-          .r-summary {
-            font-size: 14px;
-            color: #333;
-            line-height: 1.6;
-          }
+        /* ── Header ── */
+        .r-header {
+          display: flex;
+          align-items: center;
+          gap: 18px;
+          padding-bottom: 14px;
+          margin-bottom: 14px;
+          border-bottom: 2px solid #111;
+        }
+        .r-avatar {
+          width: 76px;
+          height: 76px;
+          border-radius: 50%;
+          border: 1.5px solid #ccc;
+          overflow: hidden;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #f5f5f5;
+        }
+        .r-avatar-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        .r-avatar-svg {
+          width: 48px;
+          height: 48px;
+        }
 
-          /* ── Experience ── */
-          .r-exp-item {
-            margin-bottom: 9px;
-            padding-bottom: 9px;
-            border-bottom: 1px solid #eee;
-          }
-          .r-exp-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-          }
-          .r-exp-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 3px;
-            flex-wrap: wrap;
-            gap: 4px;
-          }
-          .r-exp-company {
-            font-weight: 700;
-            font-size: 14px;
-            color: #111;
-          }
-          .r-exp-company a {
-            color: #111;
-            text-decoration: none;
-          }
-          .r-exp-company a:hover {
-            text-decoration: underline;
-          }
-          .r-exp-role {
-            font-size: 14px;
-            color: #444;
-            font-style: italic;
-          }
-          .r-exp-period {
-            font-size: 13px;
-            color: #666;
-            white-space: nowrap;
-          }
-          .r-exp-desc {
-            font-size: 14px;
-            color: #333;
-            margin-top: 2px;
-            margin-bottom: 3px;
-            line-height: 1.6;
-          }
+        .r-header-info {
+          flex: 1;
+        }
+        .r-name {
+          font-size: 24px;
+          font-weight: 700;
+          color: #111;
+          margin-bottom: 2px;
+        }
+        .r-role {
+          font-size: 14px;
+          color: #444;
+          font-style: italic;
+          margin-bottom: 5px;
+        }
+        .r-contacts {
+          font-size: 13px;
+          color: #444;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 4px;
+          align-items: center;
+          margin-top: 3px;
+        }
+        .r-contacts a {
+          color: #1a56db;
+          text-decoration: none;
+        }
+        .r-contacts a:hover {
+          text-decoration: underline;
+        }
+        .r-sep {
+          color: #aaa;
+        }
 
-          /* ── Bullet list ── */
-          .r-bullets {
-            list-style: disc;
-            padding-left: 16px;
-            margin: 3px 0 4px;
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-          }
-          .r-bullets li {
-            font-size: 14px;
-            color: #333;
-          }
+        /* ── Section ── */
+        .r-section {
+          margin-bottom: 14px;
+        }
+        .r-sec-title {
+          font-size: 14px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.8px;
+          color: #111;
+          border-bottom: 1.5px solid #111;
+          padding-bottom: 3px;
+          margin-bottom: 8px;
+        }
 
-          /* ── Tags (outline only, no fill) ── */
-          .r-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            margin-top: 4px;
-          }
-          .r-tag {
-            padding: 2px 8px;
-            border: 1px solid #999;
-            border-radius: 12px;
-            font-size: 13px;
-            color: #333;
-            background: transparent;
-          }
+        /* ── Summary ── */
+        .r-summary {
+          font-size: 14px;
+          color: #333;
+          line-height: 1.6;
+        }
 
-          /* ── Skills ── */
-          .r-skills-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-          }
-          .r-skill-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 6px;
-            flex-wrap: wrap;
-          }
-          .r-skill-cat {
-            font-size: 14px;
-            font-weight: 600;
-            color: #111;
-            white-space: nowrap;
-            min-width: 90px;
-            padding-top: 2px;
-          }
+        /* ── Experience ── */
+        .r-exp-item {
+          margin-bottom: 9px;
+          padding-bottom: 9px;
+          border-bottom: 1px solid #eee;
+        }
+        .r-exp-item:last-child {
+          border-bottom: none;
+          margin-bottom: 0;
+          padding-bottom: 0;
+        }
+        .r-exp-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+          margin-bottom: 3px;
+          flex-wrap: wrap;
+          gap: 4px;
+        }
+        .r-exp-company {
+          font-weight: 700;
+          font-size: 14px;
+          color: #111;
+        }
+        .r-exp-company a {
+          color: #111;
+          text-decoration: none;
+        }
+        .r-exp-company a:hover {
+          text-decoration: underline;
+        }
+        .r-exp-role {
+          font-size: 14px;
+          color: #444;
+          font-style: italic;
+        }
+        .r-exp-period {
+          font-size: 13px;
+          color: #666;
+          white-space: nowrap;
+        }
+        .r-exp-desc {
+          font-size: 14px;
+          color: #333;
+          margin-top: 2px;
+          margin-bottom: 3px;
+          line-height: 1.6;
+        }
 
-          /* ── Two col bottom ── */
-          .r-two-col-bottom {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-          }
+        /* ── Bullet list ── */
+        .r-bullets {
+          list-style: disc;
+          padding-left: 16px;
+          margin: 3px 0 4px;
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+        }
+        .r-bullets li {
+          font-size: 14px;
+          color: #333;
+        }
 
-          /* ── Page 2 header ── */
-          .r-page2-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            padding-bottom: 10px;
-            margin-bottom: 12px;
-            border-bottom: 2px solid #111;
-          }
+        /* ── Tags (outline only, no fill) ── */
+        .r-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 4px;
+          margin-top: 4px;
+        }
+        .r-tag {
+          padding: 2px 8px;
+          border: 1px solid #999;
+          border-radius: 12px;
+          font-size: 13px;
+          color: #333;
+          background: transparent;
+        }
+
+        /* ── Skills ── */
+        .r-skills-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+        }
+        .r-skill-row {
+          display: flex;
+          align-items: flex-start;
+          gap: 6px;
+          flex-wrap: wrap;
+        }
+        .r-skill-cat {
+          font-size: 14px;
+          font-weight: 600;
+          color: #111;
+          white-space: nowrap;
+          min-width: 90px;
+          padding-top: 2px;
+        }
+
+        /* ── Two col bottom ── */
+        .r-two-col-bottom {
+          display: flex;
+          gap: 20px;
+          align-items: flex-start;
+        }
+
+        /* ── Page 2 header ── */
+        .r-page2-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+          padding-bottom: 10px;
+          margin-bottom: 12px;
+          border-bottom: 2px solid #111;
+        }
 
           /* ── Projects grid ── */
           .r-proj-grid {
@@ -641,27 +682,26 @@ export default function AboutClient({ about }: { about: Abouttranslation }) {
             margin-bottom: 10px;
           }
 
-          /* ── Print ── */
-          @media print {
-            @page {
-              size: A4;
-              margin: 5mm;
-            }
-            body {
-              background: white;
-            }
-            nav,
-            footer,
-            .no-print {
-              display: none !important;
-            }
-            .cv-a4 {
-              border: none;
-              min-height: unset;
-            }
+        /* ── Print ── */
+        @media print {
+          @page {
+            size: A4;
+            margin: 5mm;
           }
-        `}</style>
-      </div>
+          body {
+            background: white;
+          }
+          nav,
+          footer,
+          .no-print {
+            display: none !important;
+          }
+          .cv-a4 {
+            border: none;
+            min-height: unset;
+          }
+        }
+      `}</style>
     </div>
   );
 }

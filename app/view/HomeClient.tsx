@@ -299,36 +299,36 @@ export default function HomeClient({
   return (
     <>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden pt-16 sm:pt-0">
         <InteractiveBackground />
-        <div className="relative z-10 max-w-7xl mx-auto text-center">
+        <div className="relative z-10 max-w-7xl mx-auto text-center w-full">
           <p
-            className="text-lg md:text-xl mb-4 animate-fade-in transition-colors select-none cursor-default"
+            className="text-base sm:text-lg md:text-xl mb-4 animate-fade-in transition-colors select-none cursor-default"
             style={{ color: 'var(--text-muted)' }}
           >
             {t.hero.greeting}
           </p>
           <h1
-            className="text-2xl md:text-5xl font-bold mb-4 animate-slide-up transition-colors select-none cursor-default"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 animate-slide-up transition-colors select-none cursor-default px-2"
             style={{ color: 'var(--foreground)' }}
           >
             {t.hero.title}
           </h1>
           <h2
-            className="text-2xl md:text-2xl font-semibold mb-6 animate-slide-up-delay transition-colors select-none cursor-default"
+            className="text-xl sm:text-2xl font-semibold mb-6 animate-slide-up-delay transition-colors select-none cursor-default"
             style={{ color: 'var(--text-muted)' }}
           >
             <Typewriter words={t.hero.subtitles} />
           </h2>
           <p
-            className="text-xl md:text-xl max-w-3xl mx-auto mb-8 animate-fade-in-delay transition-colors select-none cursor-default"
+            className="text-base sm:text-lg md:text-xl max-w-3xl mx-auto mb-8 animate-fade-in-delay transition-colors select-none cursor-default px-2"
             style={{ color: 'var(--foreground)' }}
           >
             {t.hero.description}
           </p>
 
           {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto mt-8 sm:mt-12 px-2">
             <div
               className="rounded-2xl shadow-xl p-6 transform hover:scale-105 transition-all"
               style={{ backgroundColor: 'var(--secondary)' }}
@@ -392,7 +392,7 @@ export default function HomeClient({
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-8 sm:mt-12 px-4 mb-6">
             <a
               href="#portfolio"
               className="px-8 py-4 rounded-full font-semibold transition-all transform hover:scale-105 shadow-lg"
@@ -411,7 +411,7 @@ export default function HomeClient({
             </a>
             <a
               href="#contact"
-              className="px-8 py-4 rounded-full font-semibold transition-all transform hover:scale-105 shadow-lg border-2"
+              className="px-8 py-4  rounded-full font-semibold transition-all transform hover:scale-105 shadow-lg border-2"
               style={{
                 backgroundColor: 'var(--background)',
                 color: 'var(--primary)',
@@ -427,19 +427,19 @@ export default function HomeClient({
       {/* Portfolio Section */}
       <section
         id="portfolio"
-        className="py-20 px-4 transition-colors"
+        className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 transition-colors"
         style={{ backgroundColor: 'var(--secondary)' }}
       >
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
             <h2
-              className="text-4xl md:text-5xl font-bold mb-4 transition-colors"
+              className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 transition-colors"
               style={{ color: 'var(--foreground)' }}
             >
               {t.portfolio.title}
             </h2>
             <p
-              className="text-xl transition-colors"
+              className="text-base sm:text-lg md:text-xl transition-colors"
               style={{ color: 'var(--text-muted)' }}
             >
               {t.portfolio.subtitle}
@@ -542,32 +542,32 @@ export default function HomeClient({
       </section>
 
       {/* Skills Section */}
-      <section className="py-20 px-4 transition-colors">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 transition-colors">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
             <h2
-              className="text-4xl md:text-5xl font-bold mb-4 transition-colors"
+              className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 transition-colors"
               style={{ color: 'var(--foreground)' }}
             >
               {t.skills.title}
             </h2>
             <p
-              className="text-xl transition-colors"
+              className="text-base sm:text-lg md:text-xl transition-colors"
               style={{ color: 'var(--text-muted)' }}
             >
               {t.skills.subtitle}
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
             {skills.map((skill, index) => (
               <div
                 key={index}
-                className="rounded-xl shadow-lg p-6 text-center transform hover:scale-105 transition-all"
+                className="rounded-xl shadow-lg p-4 sm:p-5 md:p-6 text-center transform hover:scale-105 transition-all"
                 style={{ backgroundColor: 'var(--secondary)' }}
               >
                 <div
-                  className="text-2xl font-bold mb-2 transition-colors"
+                  className="text-lg sm:text-xl md:text-2xl font-bold mb-2 transition-colors"
                   style={{ color: 'var(--foreground)' }}
                 >
                   {skill.name}
@@ -592,12 +592,12 @@ export default function HomeClient({
 
       {/* Experience Section */}
       <section
-        className="py-20 px-4 transition-colors border border-white"
+        className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 transition-colors border border-white"
         style={{ backgroundColor: 'var(--secondary)' }}
       >
         <div className="max-w-5xl mx-auto ">
           <h2
-            className="text-4xl md:text-5xl font-bold mb-12 text-center transition-colors"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-10 md:mb-12 text-center transition-colors"
             style={{ color: 'var(--foreground)' }}
           >
             {t.experience.title}
@@ -607,7 +607,7 @@ export default function HomeClient({
             {t.experience.jobs.map((job, index) => (
               <div
                 key={index}
-                className="rounded-2xl shadow-lg p-8 border-l-4 transform hover:scale-102 transition-all border border-white"
+                className="rounded-2xl shadow-lg p-5 sm:p-6 md:p-8 border-l-4 transform hover:scale-102 transition-all border border-white"
                 style={{
                   backgroundColor: 'var(--background)',
                   borderLeftColor: 'var(--primary)',
@@ -615,7 +615,7 @@ export default function HomeClient({
               >
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
                   <h3
-                    className="text-2xl font-bold transition-colors"
+                    className="text-xl sm:text-2xl font-bold transition-colors"
                     style={{ color: 'var(--foreground)' }}
                   >
                     {job.company}
@@ -648,27 +648,27 @@ export default function HomeClient({
       {/* Contact Section */}
       <section
         id="contact"
-        className="py-20 px-4 transition-colors"
+        className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 transition-colors"
         style={{
           backgroundColor: 'var(--primary)',
         }}
       >
         <div className="max-w-4xl mx-auto text-center">
           <h2
-            className="text-4xl md:text-5xl font-bold mb-6"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6"
             style={{ color: 'var(--background)' }}
           >
             {t.contact.title}
           </h2>
           <p
-            className="text-xl mb-12 opacity-90"
+            className="text-base sm:text-lg md:text-xl mb-8 sm:mb-10 md:mb-12 opacity-90"
             style={{ color: 'var(--background)' }}
           >
             {t.contact.subtitle}
           </p>
 
           <div
-            className="rounded-2xl shadow-2xl p-8 md:p-12 transition-colors"
+            className="rounded-2xl shadow-2xl p-5 sm:p-8 md:p-12 transition-colors"
             style={{ backgroundColor: 'var(--secondary)' }}
           >
             <div className="space-y-6">

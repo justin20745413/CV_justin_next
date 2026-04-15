@@ -2,12 +2,53 @@ import { getTranslations } from 'next-intl/server';
 import Nav from '@/app/components/layout/Nav';
 import Footer from '@/app/components/layout/Footer';
 import HomeClient from '@/app/view/HomeClient';
-import Image from 'next/image';
+import { HomeTranslations } from '@/app/models/Hometranslation';
 
-export default async function Home() {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const t = await getTranslations('Home');
 
-  const translations = {
+  return {
+    title: locale === 'zh-TW' ? '首頁' : 'Home',
+    description: t('hero.description'),
+  };
+}
+
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  await params;
+  const t = await getTranslations('Home');
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Justin',
+    jobTitle: 'Frontend Engineer',
+    url: 'https://justin-group.com',
+    sameAs: [
+      'https://github.com/justin20745413',
+      'https://www.linkedin.com/in/cheng-hung-huang-555718360/',
+    ],
+    knowsAbout: [
+      'Frontend Development',
+      'React',
+      'Vue 3',
+      'Nuxt.js',
+      'TypeScript',
+      'Next.js',
+      'Web Design',
+    ],
+    description: t('hero.description'),
+  };
+
+  const translations: HomeTranslations = {
     hero: {
       greeting: t('hero.greeting'),
       title: t('hero.title'),
@@ -34,7 +75,12 @@ export default async function Home() {
       title: t('portfolio.title'),
       subtitle: t('portfolio.subtitle'),
       viewPortfolio: t('portfolio.viewPortfolio'),
-      projects: Object.values(t.raw('portfolio.projects') as Record<string, any>).map((p: any) => ({
+      projects: Object.values(
+        t.raw('portfolio.projects') as Record<
+          string,
+          HomeTranslations['portfolio']['projects'][number]
+        >
+      ).map(p => ({
         title: p.title || '',
         tech: p.tech || '',
         description: p.description || '',
@@ -86,14 +132,20 @@ export default async function Home() {
   };
 
   return (
-    <div>
-      <div className="flex flex-col min-h-screen">
-        <Nav />
-        <main className="flex-grow">
-          <HomeClient translations={translations} />
-        </main>
-        <Footer />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div>
+        <div className="flex flex-col min-h-screen">
+          <Nav />
+          <main className="grow">
+            <HomeClient translations={translations} />
+          </main>
+          <Footer />
+        </div>
       </div>
-    </div>
+    </>
   );
 }

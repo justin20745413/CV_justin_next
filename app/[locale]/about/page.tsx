@@ -42,7 +42,9 @@ export default async function AboutPage() {
     experience: t.raw('experience') as Abouttranslation['experience'],
     projects: t.raw('projects') as Abouttranslation['projects'],
     education: t.raw('education') as Abouttranslation['education'],
-    certifications: t.raw('certifications') as Abouttranslation['certifications'],
+    certifications: t.raw(
+      'certifications'
+    ) as Abouttranslation['certifications'],
   };
 
   return (
