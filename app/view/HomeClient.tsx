@@ -153,12 +153,14 @@ export default function HomeClient({
           spaceBetween: 16,
           loop: true,
           centeredSlides: false,
+          observer: true,
+          observeParents: true,
           breakpoints: {
             640: { slidesPerView: 2, spaceBetween: 24 },
             1024: { slidesPerView: 3, spaceBetween: 32 },
           },
           autoplay: { delay: 4500, disableOnInteraction: false },
-          pagination: { el: '.swiper-pagination', clickable: true },
+          pagination: { el: '.swiper-pagination', clickable: true, dynamicBullets: false },
         });
       }
     };
@@ -327,7 +329,7 @@ export default function HomeClient({
       {/* ═══════════ PORTFOLIO ═══════════ */}
       <section
         id="portfolio"
-        className="py-16 sm:py-24 overflow-hidden gsap-section"
+        className="py-16 sm:py-24 overflow-x-hidden gsap-section"
         style={{ backgroundColor: 'var(--secondary)', opacity: 0 }}
       >
         <div className="px-6 sm:px-10 lg:px-16 mb-10 sm:mb-14">
@@ -425,7 +427,7 @@ export default function HomeClient({
                 </div>
               ))}
             </div>
-            <div className="swiper-pagination mt-6"></div>
+            <div className="swiper-pagination"></div>
           </div>
         </div>
       </section>
@@ -725,8 +727,17 @@ export default function HomeClient({
 
         .magazine-swiper {
           width: 100%;
-          padding-bottom: 56px !important;
+          padding-bottom: 52px !important;
           --swiper-theme-color: var(--primary);
+          overflow: visible !important;
+        }
+
+        .magazine-swiper .swiper-wrapper {
+          align-items: stretch;
+        }
+
+        .magazine-swiper .swiper-slide {
+          height: auto;
         }
 
         .magazine-card {
@@ -737,18 +748,32 @@ export default function HomeClient({
 
         @media (min-width: 640px) { .magazine-card { height: 520px; } }
 
+        .swiper-pagination {
+          position: relative !important;
+          bottom: auto !important;
+          margin-top: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          height: 12px;
+        }
+
         .swiper-pagination-bullet {
           background: var(--border) !important;
           opacity: 1 !important;
-          width: 6px;
-          height: 6px;
-          transition: width 0.25s, background 0.25s;
+          width: 6px !important;
+          height: 6px !important;
+          border-radius: 3px !important;
+          display: inline-block;
+          flex-shrink: 0;
+          transition: width 0.3s ease, background 0.3s ease !important;
+          margin: 0 !important;
         }
 
         .swiper-pagination-bullet-active {
           background: var(--primary) !important;
           width: 22px !important;
-          border-radius: 3px !important;
         }
 
         @keyframes blink {
