@@ -704,6 +704,25 @@ export default function HomeClient({
 
         .font-serif { font-family: 'Playfair Display', 'Noto Sans TC', serif !important; }
 
+        /* 統一 placeholder 顏色 */
+        input::placeholder,
+        textarea::placeholder {
+          color: var(--text-muted);
+          opacity: 0.6;
+        }
+
+        /* 覆蓋瀏覽器 autofill 黃色背景 */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus {
+          -webkit-box-shadow: 0 0 0px 1000px var(--background) inset !important;
+          -webkit-text-fill-color: var(--foreground) !important;
+          transition: background-color 5000s ease-in-out 0s;
+        }
+
         .magazine-swiper {
           width: 100%;
           padding-bottom: 56px !important;
