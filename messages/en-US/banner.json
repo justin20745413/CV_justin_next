@@ -1,7 +1,7 @@
 {
   "Nav": {
     "logo": "Justin",
-    "home": "Home",
+    "home": "Justin | Front-end Engineer",
     "about": "About Me",
     "projects": "Projects",
     "contact": "Contact",
@@ -14,7 +14,7 @@
     "aboutTitle": "About",
     "aboutText": "This website is maintained by Justin, focusing on frontend development and technology sharing, specializing in Vue 3, Nuxt, TypeScript and modern web technologies. Committed to creating clean, maintainable frontend applications with excellent user experience. Welcome to connect and collaborate.",
     "linksTitle": "Links",
-    "home": "Home",
+    "home": "Justin | Front-end Engineer",
     "about": "About Me",
     "projects": "Projects",
     "contact": {

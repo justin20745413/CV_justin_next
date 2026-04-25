@@ -1,7 +1,7 @@
 {
   "Nav": {
     "logo": "Justin",
-    "home": "首頁",
+    "home": "Justin | 前端工程師",
     "about": "關於我",
     "projects": "專案",
     "contact": "聯絡我",
@@ -14,7 +14,7 @@
     "aboutTitle": "關於",
     "aboutText": "本網站由 Justin 維運，專注於前端開發與技術分享，擅長 Vue 3、Nuxt、TypeScript 與現代網頁技術。致力於打造乾淨、可維護且具有使用者體驗的前端應用，歡迎交流與合作 ",
     "linksTitle": "連結",
-    "home": "首頁",
+    "home": "Justin | 前端工程師",
     "about": "關於我",
     "projects": "專案",
     "contact": {
