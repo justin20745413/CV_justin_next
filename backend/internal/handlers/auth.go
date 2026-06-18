@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"log"
 	"net/http"
 	"time"
@@ -45,12 +46,6 @@ func (h *AuthHandler) Register(c *gin.Context) {
 		return
 	}
 
-	var existing models.User
-	if err := h.DB.Where("email = ?", req.Email).First(&existing).Error; err == nil {
-		c.JSON(http.StatusConflict, gin.H{"error": "email already registered"})
-		return
-	}
-
 	hash, err := auth.HashPassword(req.Password)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to process password"})
@@ -62,7 +57,13 @@ func (h *AuthHandler) Register(c *gin.Context) {
 		PasswordHash: hash,
 		DisplayName:  req.DisplayName,
 	}
+	// Rely on the DB's unique index on email rather than a separate
+	// check-then-insert, which would race under concurrent registrations.
 	if err := h.DB.Create(&user).Error; err != nil {
+		if errors.Is(err, gorm.ErrDuplicatedKey) {
+			c.JSON(http.StatusConflict, gin.H{"error": "email already registered"})
+			return
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create user"})
 		return
 	}

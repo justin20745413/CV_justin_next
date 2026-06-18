@@ -18,7 +18,7 @@ func NewTestDB(t *testing.T) *gorm.DB {
 		t.Skip("TEST_DATABASE_URL not set, skipping database test")
 	}
 
-	conn, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	conn, err := gorm.Open(postgres.Open(dsn), &gorm.Config{TranslateError: true})
 	if err != nil {
 		t.Fatalf("failed to connect to test database: %v", err)
 	}
