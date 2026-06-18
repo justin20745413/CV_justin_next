@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 	"time"
 
@@ -131,9 +132,11 @@ func (h *AuthHandler) Refresh(c *gin.Context) {
 
 	// Keep the login_record pointing at the currently-active refresh token
 	// so Logout can still find it after rotation.
-	h.DB.Model(&models.LoginRecord{}).
+	if err := h.DB.Model(&models.LoginRecord{}).
 		Where("refresh_token_id = ?", stored.ID).
-		Update("refresh_token_id", newRefreshRecord.ID)
+		Update("refresh_token_id", newRefreshRecord.ID).Error; err != nil {
+		log.Printf("failed to re-link login_record to rotated refresh token %s: %v", newRefreshRecord.ID, err)
+	}
 
 	h.setRefreshCookie(c, newRefreshPlain)
 
@@ -201,9 +204,11 @@ func (h *AuthHandler) Logout(c *gin.Context) {
 		return
 	}
 
-	h.DB.Model(&models.LoginRecord{}).
+	if err := h.DB.Model(&models.LoginRecord{}).
 		Where("refresh_token_id = ? AND logout_at IS NULL", stored.ID).
-		Update("logout_at", now)
+		Update("logout_at", now).Error; err != nil {
+		log.Printf("failed to set logout_at on login_record for refresh token %s: %v", stored.ID, err)
+	}
 
 	c.SetCookie("refresh_token", "", -1, "/api/auth", "", false, true)
 	c.Status(http.StatusNoContent)
