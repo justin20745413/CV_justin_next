@@ -94,6 +94,58 @@ func (h *AuthHandler) Login(c *gin.Context) {
 	h.completeLogin(c, user, http.StatusOK)
 }
 
+func (h *AuthHandler) Refresh(c *gin.Context) {
+	refreshPlain, err := c.Cookie("refresh_token")
+	if err != nil || refreshPlain == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "missing refresh token"})
+		return
+	}
+
+	hash := auth.HashRefreshToken(refreshPlain)
+	var stored models.RefreshToken
+	if err := h.DB.Where("token_hash = ? AND revoked_at IS NULL AND expires_at > ?", hash, time.Now()).
+		First(&stored).Error; err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid or expired refresh token"})
+		return
+	}
+
+	var user models.User
+	if err := h.DB.First(&user, "id = ?", stored.UserID).Error; err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "user not found"})
+		return
+	}
+
+	now := time.Now()
+	stored.RevokedAt = &now
+	if err := h.DB.Save(&stored).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to revoke old refresh token"})
+		return
+	}
+
+	accessToken, newRefreshPlain, newRefreshRecord, err := h.issueTokens(user)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to issue tokens"})
+		return
+	}
+
+	// Keep the login_record pointing at the currently-active refresh token
+	// so Logout can still find it after rotation.
+	h.DB.Model(&models.LoginRecord{}).
+		Where("refresh_token_id = ?", stored.ID).
+		Update("refresh_token_id", newRefreshRecord.ID)
+
+	h.setRefreshCookie(c, newRefreshPlain)
+
+	c.JSON(http.StatusOK, authResponse{
+		AccessToken: accessToken,
+		User: userPublic{
+			ID:          user.ID,
+			Email:       user.Email,
+			DisplayName: user.DisplayName,
+		},
+	})
+}
+
 func (h *AuthHandler) issueTokens(user models.User) (accessToken, refreshPlain string, refreshRecord models.RefreshToken, err error) {
 	accessToken, err = auth.GenerateAccessToken(user.ID, h.JWTSecret, h.AccessTTL)
 	if err != nil {

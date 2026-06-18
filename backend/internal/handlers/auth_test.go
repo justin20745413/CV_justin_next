@@ -180,3 +180,65 @@ func TestLogin_RejectsWrongPassword(t *testing.T) {
 		t.Fatalf("expected status 401, got %d: %s", rec.Code, rec.Body.String())
 	}
 }
+
+func TestRefresh_IssuesNewAccessTokenAndRotatesRefreshToken(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	h := newAuthHandler(t)
+	router := gin.New()
+	router.POST("/api/auth/register", h.Register)
+	router.POST("/api/auth/refresh", h.Refresh)
+
+	registerBody, _ := json.Marshal(map[string]string{
+		"email":        "erin@example.com",
+		"password":     "supersecret123",
+		"display_name": "Erin",
+	})
+	registerReq := httptest.NewRequest(http.MethodPost, "/api/auth/register", bytes.NewReader(registerBody))
+	registerReq.Header.Set("Content-Type", "application/json")
+	registerRec := httptest.NewRecorder()
+	router.ServeHTTP(registerRec, registerReq)
+	if registerRec.Code != http.StatusCreated {
+		t.Fatalf("expected registration to succeed, got %d: %s", registerRec.Code, registerRec.Body.String())
+	}
+
+	var refreshCookie *http.Cookie
+	for _, ck := range registerRec.Result().Cookies() {
+		if ck.Name == "refresh_token" {
+			refreshCookie = ck
+		}
+	}
+	if refreshCookie == nil {
+		t.Fatal("expected refresh_token cookie from register response")
+	}
+
+	refreshReq := httptest.NewRequest(http.MethodPost, "/api/auth/refresh", nil)
+	refreshReq.AddCookie(refreshCookie)
+	refreshRec := httptest.NewRecorder()
+	router.ServeHTTP(refreshRec, refreshReq)
+	if refreshRec.Code != http.StatusOK {
+		t.Fatalf("expected refresh to succeed, got %d: %s", refreshRec.Code, refreshRec.Body.String())
+	}
+
+	reuseReq := httptest.NewRequest(http.MethodPost, "/api/auth/refresh", nil)
+	reuseReq.AddCookie(refreshCookie)
+	reuseRec := httptest.NewRecorder()
+	router.ServeHTTP(reuseRec, reuseReq)
+	if reuseRec.Code != http.StatusUnauthorized {
+		t.Fatalf("expected reusing a rotated refresh token to fail with 401, got %d", reuseRec.Code)
+	}
+}
+
+func TestRefresh_RejectsMissingCookie(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	h := newAuthHandler(t)
+	router := gin.New()
+	router.POST("/api/auth/refresh", h.Refresh)
+
+	req := httptest.NewRequest(http.MethodPost, "/api/auth/refresh", nil)
+	rec := httptest.NewRecorder()
+	router.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusUnauthorized {
+		t.Fatalf("expected status 401, got %d", rec.Code)
+	}
+}
