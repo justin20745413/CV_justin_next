@@ -309,3 +309,58 @@ func TestLogout_RejectsMissingAccessToken(t *testing.T) {
 		t.Fatalf("expected status 401, got %d", rec.Code)
 	}
 }
+
+func TestMe_ReturnsCurrentUser(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	h := newAuthHandler(t)
+	router := gin.New()
+	router.POST("/api/auth/register", h.Register)
+	router.GET("/api/auth/me", middleware.RequireAuth(h.JWTSecret), h.Me)
+
+	registerBody, _ := json.Marshal(map[string]string{
+		"email":        "grace@example.com",
+		"password":     "supersecret123",
+		"display_name": "Grace",
+	})
+	registerReq := httptest.NewRequest(http.MethodPost, "/api/auth/register", bytes.NewReader(registerBody))
+	registerReq.Header.Set("Content-Type", "application/json")
+	registerRec := httptest.NewRecorder()
+	router.ServeHTTP(registerRec, registerReq)
+
+	var resp authResponse
+	if err := json.Unmarshal(registerRec.Body.Bytes(), &resp); err != nil {
+		t.Fatalf("failed to decode register response: %v", err)
+	}
+
+	meReq := httptest.NewRequest(http.MethodGet, "/api/auth/me", nil)
+	meReq.Header.Set("Authorization", "Bearer "+resp.AccessToken)
+	meRec := httptest.NewRecorder()
+	router.ServeHTTP(meRec, meReq)
+
+	if meRec.Code != http.StatusOK {
+		t.Fatalf("expected status 200, got %d: %s", meRec.Code, meRec.Body.String())
+	}
+
+	var meResp userPublic
+	if err := json.Unmarshal(meRec.Body.Bytes(), &meResp); err != nil {
+		t.Fatalf("failed to decode me response: %v", err)
+	}
+	if meResp.Email != "grace@example.com" {
+		t.Fatalf("expected email grace@example.com, got %s", meResp.Email)
+	}
+}
+
+func TestMe_RejectsMissingAccessToken(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	h := newAuthHandler(t)
+	router := gin.New()
+	router.GET("/api/auth/me", middleware.RequireAuth(h.JWTSecret), h.Me)
+
+	req := httptest.NewRequest(http.MethodGet, "/api/auth/me", nil)
+	rec := httptest.NewRecorder()
+	router.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusUnauthorized {
+		t.Fatalf("expected status 401, got %d", rec.Code)
+	}
+}
