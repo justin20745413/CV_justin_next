@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"cvbackend/internal/auth"
+	"cvbackend/internal/middleware"
 	"cvbackend/internal/models"
 	"cvbackend/internal/testutil"
 
@@ -235,6 +236,72 @@ func TestRefresh_RejectsMissingCookie(t *testing.T) {
 	router.POST("/api/auth/refresh", h.Refresh)
 
 	req := httptest.NewRequest(http.MethodPost, "/api/auth/refresh", nil)
+	rec := httptest.NewRecorder()
+	router.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusUnauthorized {
+		t.Fatalf("expected status 401, got %d", rec.Code)
+	}
+}
+
+func TestLogout_RevokesRefreshTokenAndPreventsFurtherRefresh(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	h := newAuthHandler(t)
+	router := gin.New()
+	router.POST("/api/auth/register", h.Register)
+	router.POST("/api/auth/refresh", h.Refresh)
+	router.POST("/api/auth/logout", middleware.RequireAuth(h.JWTSecret), h.Logout)
+
+	registerBody, _ := json.Marshal(map[string]string{
+		"email":        "frank@example.com",
+		"password":     "supersecret123",
+		"display_name": "Frank",
+	})
+	registerReq := httptest.NewRequest(http.MethodPost, "/api/auth/register", bytes.NewReader(registerBody))
+	registerReq.Header.Set("Content-Type", "application/json")
+	registerRec := httptest.NewRecorder()
+	router.ServeHTTP(registerRec, registerReq)
+
+	var resp authResponse
+	if err := json.Unmarshal(registerRec.Body.Bytes(), &resp); err != nil {
+		t.Fatalf("failed to decode register response: %v", err)
+	}
+
+	var refreshCookie *http.Cookie
+	for _, ck := range registerRec.Result().Cookies() {
+		if ck.Name == "refresh_token" {
+			refreshCookie = ck
+		}
+	}
+	if refreshCookie == nil {
+		t.Fatal("expected refresh_token cookie from register response")
+	}
+
+	logoutReq := httptest.NewRequest(http.MethodPost, "/api/auth/logout", nil)
+	logoutReq.AddCookie(refreshCookie)
+	logoutReq.Header.Set("Authorization", "Bearer "+resp.AccessToken)
+	logoutRec := httptest.NewRecorder()
+	router.ServeHTTP(logoutRec, logoutReq)
+	if logoutRec.Code != http.StatusNoContent {
+		t.Fatalf("expected status 204, got %d: %s", logoutRec.Code, logoutRec.Body.String())
+	}
+
+	refreshReq := httptest.NewRequest(http.MethodPost, "/api/auth/refresh", nil)
+	refreshReq.AddCookie(refreshCookie)
+	refreshRec := httptest.NewRecorder()
+	router.ServeHTTP(refreshRec, refreshReq)
+	if refreshRec.Code != http.StatusUnauthorized {
+		t.Fatalf("expected revoked refresh token to fail refresh with 401, got %d", refreshRec.Code)
+	}
+}
+
+func TestLogout_RejectsMissingAccessToken(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	h := newAuthHandler(t)
+	router := gin.New()
+	router.POST("/api/auth/logout", middleware.RequireAuth(h.JWTSecret), h.Logout)
+
+	req := httptest.NewRequest(http.MethodPost, "/api/auth/logout", nil)
 	rec := httptest.NewRecorder()
 	router.ServeHTTP(rec, req)
 

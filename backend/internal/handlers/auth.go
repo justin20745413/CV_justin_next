@@ -146,6 +146,35 @@ func (h *AuthHandler) Refresh(c *gin.Context) {
 	})
 }
 
+func (h *AuthHandler) Logout(c *gin.Context) {
+	refreshPlain, err := c.Cookie("refresh_token")
+	if err != nil || refreshPlain == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "missing refresh token"})
+		return
+	}
+
+	hash := auth.HashRefreshToken(refreshPlain)
+	var stored models.RefreshToken
+	if err := h.DB.Where("token_hash = ?", hash).First(&stored).Error; err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid refresh token"})
+		return
+	}
+
+	now := time.Now()
+	stored.RevokedAt = &now
+	if err := h.DB.Save(&stored).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to revoke refresh token"})
+		return
+	}
+
+	h.DB.Model(&models.LoginRecord{}).
+		Where("refresh_token_id = ? AND logout_at IS NULL", stored.ID).
+		Update("logout_at", now)
+
+	c.SetCookie("refresh_token", "", -1, "/api/auth", "", false, true)
+	c.Status(http.StatusNoContent)
+}
+
 func (h *AuthHandler) issueTokens(user models.User) (accessToken, refreshPlain string, refreshRecord models.RefreshToken, err error) {
 	accessToken, err = auth.GenerateAccessToken(user.ID, h.JWTSecret, h.AccessTTL)
 	if err != nil {
