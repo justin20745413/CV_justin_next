@@ -8,6 +8,8 @@ import (
 	"testing"
 	"time"
 
+	"cvbackend/internal/auth"
+	"cvbackend/internal/models"
 	"cvbackend/internal/testutil"
 
 	"github.com/gin-gonic/gin"
@@ -114,5 +116,67 @@ func TestRegister_RejectsShortPassword(t *testing.T) {
 
 	if rec.Code != http.StatusBadRequest {
 		t.Fatalf("expected status 400, got %d: %s", rec.Code, rec.Body.String())
+	}
+}
+
+func TestLogin_ReturnsAccessTokenForValidCredentials(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	h := newAuthHandler(t)
+
+	hash, _ := auth.HashPassword("supersecret123")
+	user := models.User{Email: "carol@example.com", PasswordHash: hash, DisplayName: "Carol"}
+	if err := h.DB.Create(&user).Error; err != nil {
+		t.Fatalf("failed to seed user: %v", err)
+	}
+
+	router := gin.New()
+	router.POST("/api/auth/login", h.Login)
+
+	body, _ := json.Marshal(map[string]string{
+		"email":    "carol@example.com",
+		"password": "supersecret123",
+	})
+	req := httptest.NewRequest(http.MethodPost, "/api/auth/login", bytes.NewReader(body))
+	req.Header.Set("Content-Type", "application/json")
+	rec := httptest.NewRecorder()
+	router.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusOK {
+		t.Fatalf("expected status 200, got %d: %s", rec.Code, rec.Body.String())
+	}
+
+	var resp authResponse
+	if err := json.Unmarshal(rec.Body.Bytes(), &resp); err != nil {
+		t.Fatalf("failed to decode response: %v", err)
+	}
+	if resp.AccessToken == "" {
+		t.Fatal("expected non-empty access token")
+	}
+}
+
+func TestLogin_RejectsWrongPassword(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	h := newAuthHandler(t)
+
+	hash, _ := auth.HashPassword("supersecret123")
+	user := models.User{Email: "dave@example.com", PasswordHash: hash, DisplayName: "Dave"}
+	if err := h.DB.Create(&user).Error; err != nil {
+		t.Fatalf("failed to seed user: %v", err)
+	}
+
+	router := gin.New()
+	router.POST("/api/auth/login", h.Login)
+
+	body, _ := json.Marshal(map[string]string{
+		"email":    "dave@example.com",
+		"password": "wrong-password",
+	})
+	req := httptest.NewRequest(http.MethodPost, "/api/auth/login", bytes.NewReader(body))
+	req.Header.Set("Content-Type", "application/json")
+	rec := httptest.NewRecorder()
+	router.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusUnauthorized {
+		t.Fatalf("expected status 401, got %d: %s", rec.Code, rec.Body.String())
 	}
 }

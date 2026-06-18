@@ -68,6 +68,32 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	h.completeLogin(c, user, http.StatusCreated)
 }
 
+type loginRequest struct {
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required"`
+}
+
+func (h *AuthHandler) Login(c *gin.Context) {
+	var req loginRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user models.User
+	if err := h.DB.Where("email = ?", req.Email).First(&user).Error; err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid email or password"})
+		return
+	}
+
+	if !auth.CheckPassword(user.PasswordHash, req.Password) {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid email or password"})
+		return
+	}
+
+	h.completeLogin(c, user, http.StatusOK)
+}
+
 func (h *AuthHandler) issueTokens(user models.User) (accessToken, refreshPlain string, refreshRecord models.RefreshToken, err error) {
 	accessToken, err = auth.GenerateAccessToken(user.ID, h.JWTSecret, h.AccessTTL)
 	if err != nil {
