@@ -51,7 +51,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const refreshTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const refreshRef = useRef<() => Promise<void>>(async () => {});
+  const refreshRef = useRef<() => Promise<string | null>>(
+    async () => null
+  );
 
   const clearSession = useCallback(() => {
     if (refreshTimer.current) {
@@ -81,7 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [scheduleRefresh]
   );
 
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (): Promise<string | null> => {
     try {
       const res = await fetch(`${API_BASE_URL}/api/auth/refresh`, {
         method: 'POST',
@@ -89,12 +91,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
       if (!res.ok) {
         clearSession();
-        return;
+        return null;
       }
       const data: AuthResponse = await res.json();
       applyAuthResponse(data);
+      return data.access_token;
     } catch {
       clearSession();
+      return null;
     }
   }, [applyAuthResponse, clearSession]);
 
@@ -152,15 +156,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const logout = useCallback(async () => {
-    if (accessToken) {
+    // A null accessToken can mean a transient refresh failure rather than an
+    // actually-invalid session, so try once more before giving up on
+    // revoking the server-side refresh token. Use refresh()'s return value
+    // directly rather than the (stale, closed-over) accessToken state.
+    const tokenForLogout = accessToken ?? (await refresh());
+    if (tokenForLogout) {
       await fetch(`${API_BASE_URL}/api/auth/logout`, {
         method: 'POST',
         credentials: 'include',
-        headers: { Authorization: `Bearer ${accessToken}` },
+        headers: { Authorization: `Bearer ${tokenForLogout}` },
       }).catch(() => undefined);
     }
     clearSession();
-  }, [accessToken, clearSession]);
+  }, [accessToken, refresh, clearSession]);
 
   return (
     <AuthContext.Provider
