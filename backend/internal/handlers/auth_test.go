@@ -310,6 +310,67 @@ func TestLogout_RejectsMissingAccessToken(t *testing.T) {
 	}
 }
 
+func TestLogout_RejectsRefreshCookieBelongingToAnotherUser(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	h := newAuthHandler(t)
+	router := gin.New()
+	router.POST("/api/auth/register", h.Register)
+	router.POST("/api/auth/logout", middleware.RequireAuth(h.JWTSecret), h.Logout)
+
+	registerUser := func(email, displayName string) (authResponse, *http.Cookie) {
+		body, _ := json.Marshal(map[string]string{
+			"email":        email,
+			"password":     "supersecret123",
+			"display_name": displayName,
+		})
+		req := httptest.NewRequest(http.MethodPost, "/api/auth/register", bytes.NewReader(body))
+		req.Header.Set("Content-Type", "application/json")
+		rec := httptest.NewRecorder()
+		router.ServeHTTP(rec, req)
+
+		var resp authResponse
+		if err := json.Unmarshal(rec.Body.Bytes(), &resp); err != nil {
+			t.Fatalf("failed to decode register response: %v", err)
+		}
+
+		var cookie *http.Cookie
+		for _, ck := range rec.Result().Cookies() {
+			if ck.Name == "refresh_token" {
+				cookie = ck
+			}
+		}
+		if cookie == nil {
+			t.Fatal("expected refresh_token cookie from register response")
+		}
+		return resp, cookie
+	}
+
+	_, aliceCookie := registerUser("alice-logout@example.com", "Alice")
+	bobResp, _ := registerUser("bob-logout@example.com", "Bob")
+
+	// Bob's access token, but Alice's refresh_token cookie.
+	logoutReq := httptest.NewRequest(http.MethodPost, "/api/auth/logout", nil)
+	logoutReq.AddCookie(aliceCookie)
+	logoutReq.Header.Set("Authorization", "Bearer "+bobResp.AccessToken)
+	logoutRec := httptest.NewRecorder()
+	router.ServeHTTP(logoutRec, logoutReq)
+
+	if logoutRec.Code != http.StatusUnauthorized {
+		t.Fatalf("expected status 401 when refresh cookie belongs to a different user, got %d: %s", logoutRec.Code, logoutRec.Body.String())
+	}
+
+	// Alice's refresh token must still be usable.
+	refreshReq := httptest.NewRequest(http.MethodPost, "/api/auth/refresh", nil)
+	refreshReq.AddCookie(aliceCookie)
+	refreshRec := httptest.NewRecorder()
+	router2 := gin.New()
+	router2.POST("/api/auth/refresh", h.Refresh)
+	router2.ServeHTTP(refreshRec, refreshReq)
+	if refreshRec.Code != http.StatusOK {
+		t.Fatalf("expected Alice's refresh token to remain valid, got %d: %s", refreshRec.Code, refreshRec.Body.String())
+	}
+}
+
 func TestMe_ReturnsCurrentUser(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	h := newAuthHandler(t)

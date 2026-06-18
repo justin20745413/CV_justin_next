@@ -169,6 +169,13 @@ func (h *AuthHandler) Me(c *gin.Context) {
 }
 
 func (h *AuthHandler) Logout(c *gin.Context) {
+	userIDValue, exists := c.Get(middleware.ContextUserIDKey)
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "not authenticated"})
+		return
+	}
+	userID := userIDValue.(uuid.UUID)
+
 	refreshPlain, err := c.Cookie("refresh_token")
 	if err != nil || refreshPlain == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "missing refresh token"})
@@ -179,6 +186,11 @@ func (h *AuthHandler) Logout(c *gin.Context) {
 	var stored models.RefreshToken
 	if err := h.DB.Where("token_hash = ?", hash).First(&stored).Error; err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid refresh token"})
+		return
+	}
+
+	if stored.UserID != userID {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "refresh token does not belong to the authenticated user"})
 		return
 	}
 
