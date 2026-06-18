@@ -3,6 +3,7 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/intl/routing';
 import { ThemeProvider } from '@/app/components/ThemeProvider';
+import { AuthProvider } from '@/app/contexts/AuthContext';
 import '../globals.css';
 import { Analytics } from '@vercel/analytics/next';
 
@@ -103,8 +104,10 @@ export default async function LocaleLayout({
       <body suppressHydrationWarning>
         <ThemeProvider>
           <NextIntlClientProvider messages={messages}>
-            {children}
-            <Analytics />
+            <AuthProvider>
+              {children}
+              <Analytics />
+            </AuthProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>
