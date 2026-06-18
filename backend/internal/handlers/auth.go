@@ -39,6 +39,14 @@ type userPublic struct {
 	DisplayName string    `json:"display_name"`
 }
 
+func toUserPublic(user models.User) userPublic {
+	return userPublic{
+		ID:          user.ID,
+		Email:       user.Email,
+		DisplayName: user.DisplayName,
+	}
+}
+
 func (h *AuthHandler) Register(c *gin.Context) {
 	var req registerRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -143,11 +151,7 @@ func (h *AuthHandler) Refresh(c *gin.Context) {
 
 	c.JSON(http.StatusOK, authResponse{
 		AccessToken: accessToken,
-		User: userPublic{
-			ID:          user.ID,
-			Email:       user.Email,
-			DisplayName: user.DisplayName,
-		},
+		User:        toUserPublic(user),
 	})
 }
 
@@ -165,11 +169,7 @@ func (h *AuthHandler) Me(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, userPublic{
-		ID:          user.ID,
-		Email:       user.Email,
-		DisplayName: user.DisplayName,
-	})
+	c.JSON(http.StatusOK, toUserPublic(user))
 }
 
 func (h *AuthHandler) Logout(c *gin.Context) {
@@ -271,10 +271,6 @@ func (h *AuthHandler) completeLogin(c *gin.Context, user models.User, statusCode
 
 	c.JSON(statusCode, authResponse{
 		AccessToken: accessToken,
-		User: userPublic{
-			ID:          user.ID,
-			Email:       user.Email,
-			DisplayName: user.DisplayName,
-		},
+		User:        toUserPublic(user),
 	})
 }
