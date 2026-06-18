@@ -55,7 +55,7 @@ func main() {
 	api := router.Group("/api/auth")
 	api.POST("/register", authLimiter, authHandler.Register)
 	api.POST("/login", authLimiter, authHandler.Login)
-	api.POST("/refresh", authHandler.Refresh)
+	api.POST("/refresh", authLimiter, authHandler.Refresh)
 	api.POST("/logout", middleware.RequireAuth(jwtSecret), authHandler.Logout)
 	api.GET("/me", middleware.RequireAuth(jwtSecret), authHandler.Me)
 
