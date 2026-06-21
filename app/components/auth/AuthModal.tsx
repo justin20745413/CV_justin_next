@@ -19,7 +19,10 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
     >
       <div
         className="w-full max-w-sm border p-8"
-        style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)' }}
+        style={{
+          backgroundColor: 'var(--background)',
+          borderColor: 'var(--border)',
+        }}
         onClick={e => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-6">

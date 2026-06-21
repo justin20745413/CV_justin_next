@@ -98,7 +98,10 @@ export default function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
         type="submit"
         disabled={isSubmitting}
         className="mt-2 px-4 py-2 text-xs uppercase tracking-wider font-semibold"
-        style={{ backgroundColor: 'var(--foreground)', color: 'var(--background)' }}
+        style={{
+          backgroundColor: 'var(--foreground)',
+          color: 'var(--background)',
+        }}
       >
         {isSubmitting ? t('registering') : t('registerButton')}
       </button>
