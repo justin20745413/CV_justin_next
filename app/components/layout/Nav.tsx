@@ -4,14 +4,19 @@ import { useTranslations, useLocale } from 'next-intl';
 import { Link, useRouter, usePathname } from '@/intl/routing';
 import { useTheme } from '../ThemeProvider';
 import { useSyncExternalStore, useState } from 'react';
+import { useAuth } from '@/app/contexts/AuthContext';
+import AuthModal from '../auth/AuthModal';
 
 export default function Nav() {
   const t = useTranslations('Nav');
+  const tAuth = useTranslations('Auth');
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const [authModalOpen, setAuthModalOpen] = useState(false);
 
   const mounted = useSyncExternalStore(
     () => () => {},
@@ -37,19 +42,35 @@ export default function Nav() {
     return (
       <nav
         className="sticky top-0 z-50 border-b"
-        style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)' }}
+        style={{
+          backgroundColor: 'var(--background)',
+          borderColor: 'var(--border)',
+        }}
       >
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="flex justify-between items-center h-14">
-            <div className="h-4 w-20 animate-pulse rounded" style={{ backgroundColor: 'var(--border)' }}></div>
+            <div
+              className="h-4 w-20 animate-pulse rounded"
+              style={{ backgroundColor: 'var(--border)' }}
+            ></div>
             <div className="hidden md:flex gap-8">
               {[1, 2, 3, 4].map(i => (
-                <div key={i} className="h-3 w-10 animate-pulse rounded" style={{ backgroundColor: 'var(--border)' }}></div>
+                <div
+                  key={i}
+                  className="h-3 w-10 animate-pulse rounded"
+                  style={{ backgroundColor: 'var(--border)' }}
+                ></div>
               ))}
             </div>
             <div className="flex gap-3">
-              <div className="h-6 w-8 animate-pulse rounded" style={{ backgroundColor: 'var(--border)' }}></div>
-              <div className="h-6 w-6 animate-pulse rounded" style={{ backgroundColor: 'var(--border)' }}></div>
+              <div
+                className="h-6 w-8 animate-pulse rounded"
+                style={{ backgroundColor: 'var(--border)' }}
+              ></div>
+              <div
+                className="h-6 w-6 animate-pulse rounded"
+                style={{ backgroundColor: 'var(--border)' }}
+              ></div>
             </div>
           </div>
         </div>
@@ -60,11 +81,13 @@ export default function Nav() {
   return (
     <nav
       className="sticky top-0 z-50 border-b transition-colors"
-      style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)' }}
+      style={{
+        backgroundColor: 'var(--background)',
+        borderColor: 'var(--border)',
+      }}
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
         <div className="flex justify-between items-center h-14">
-
           {/* Logo */}
           <Link
             href="/"
@@ -82,8 +105,12 @@ export default function Nav() {
                 href={link.href}
                 className="text-xs tracking-[0.18em] uppercase font-semibold transition-colors"
                 style={{ color: 'var(--text-muted)' }}
-                onMouseEnter={e => { e.currentTarget.style.color = 'var(--foreground)'; }}
-                onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)'; }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.color = 'var(--foreground)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.color = 'var(--text-muted)';
+                }}
               >
                 {link.label}
               </Link>
@@ -92,6 +119,57 @@ export default function Nav() {
 
           {/* Right controls */}
           <div className="flex items-center gap-3">
+            {/* Auth control */}
+            {user ? (
+              <div className="flex items-center gap-2">
+                <span
+                  className="text-xs tracking-[0.1em]"
+                  style={{ color: 'var(--text-muted)' }}
+                >
+                  {tAuth('greeting', { name: user.display_name })}
+                </span>
+                <button
+                  onClick={() => logout()}
+                  className="text-xs tracking-[0.15em] uppercase font-semibold border px-3 py-1.5 transition-all"
+                  style={{
+                    borderColor: 'var(--border)',
+                    color: 'var(--text-muted)',
+                    backgroundColor: 'transparent',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.borderColor = 'var(--foreground)';
+                    e.currentTarget.style.color = 'var(--foreground)';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.borderColor = 'var(--border)';
+                    e.currentTarget.style.color = 'var(--text-muted)';
+                  }}
+                >
+                  {tAuth('navLogout')}
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setAuthModalOpen(true)}
+                className="text-xs tracking-[0.15em] uppercase font-semibold border px-3 py-1.5 transition-all"
+                style={{
+                  borderColor: 'var(--border)',
+                  color: 'var(--text-muted)',
+                  backgroundColor: 'transparent',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = 'var(--foreground)';
+                  e.currentTarget.style.color = 'var(--foreground)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = 'var(--border)';
+                  e.currentTarget.style.color = 'var(--text-muted)';
+                }}
+              >
+                {tAuth('navLogin')}
+              </button>
+            )}
+
             {/* Language toggle */}
             <button
               onClick={toggleLocale}
@@ -130,16 +208,40 @@ export default function Nav() {
                 e.currentTarget.style.borderColor = 'var(--border)';
                 e.currentTarget.style.color = 'var(--text-muted)';
               }}
-              title={isDark ? t('Theme.switchToBlueWhite') : t('Theme.switchToDarkOrange')}
+              title={
+                isDark
+                  ? t('Theme.switchToBlueWhite')
+                  : t('Theme.switchToDarkOrange')
+              }
               aria-label="Toggle theme"
             >
               {isDark ? (
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 7a5 5 0 100 10A5 5 0 0012 7z" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 7a5 5 0 100 10A5 5 0 0012 7z"
+                  />
                 </svg>
               ) : (
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                  />
                 </svg>
               )}
             </button>
@@ -148,14 +250,20 @@ export default function Nav() {
             <button
               onClick={() => setMenuOpen(prev => !prev)}
               className="md:hidden w-8 h-8 flex flex-col items-center justify-center gap-1.5 border transition-all"
-              style={{ borderColor: 'var(--border)', color: 'var(--foreground)', backgroundColor: 'transparent' }}
+              style={{
+                borderColor: 'var(--border)',
+                color: 'var(--foreground)',
+                backgroundColor: 'transparent',
+              }}
               aria-label="Toggle menu"
             >
               <span
                 className="block w-4 h-px transition-all duration-300 origin-center"
                 style={{
                   backgroundColor: 'var(--foreground)',
-                  transform: menuOpen ? 'translateY(3px) rotate(45deg)' : 'none',
+                  transform: menuOpen
+                    ? 'translateY(3px) rotate(45deg)'
+                    : 'none',
                 }}
               ></span>
               <span
@@ -170,7 +278,9 @@ export default function Nav() {
                 className="block w-4 h-px transition-all duration-300 origin-center"
                 style={{
                   backgroundColor: 'var(--foreground)',
-                  transform: menuOpen ? 'translateY(-3px) rotate(-45deg)' : 'none',
+                  transform: menuOpen
+                    ? 'translateY(-3px) rotate(-45deg)'
+                    : 'none',
                 }}
               ></span>
             </button>
@@ -182,7 +292,10 @@ export default function Nav() {
       {menuOpen && (
         <div
           className="md:hidden border-t"
-          style={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)' }}
+          style={{
+            backgroundColor: 'var(--background)',
+            borderColor: 'var(--border)',
+          }}
         >
           {navLinks.map((link, i) => (
             <Link
@@ -194,17 +307,26 @@ export default function Nav() {
                 borderColor: 'var(--border)',
                 color: 'var(--text-muted)',
               }}
-              onMouseEnter={e => { e.currentTarget.style.color = 'var(--foreground)'; }}
-              onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)'; }}
+              onMouseEnter={e => {
+                e.currentTarget.style.color = 'var(--foreground)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.color = 'var(--text-muted)';
+              }}
             >
               <span>{link.label}</span>
-              <span className="text-[10px] font-mono" style={{ color: 'var(--border)' }}>
+              <span
+                className="text-[10px] font-mono"
+                style={{ color: 'var(--border)' }}
+              >
                 {String(i + 1).padStart(2, '0')}
               </span>
             </Link>
           ))}
         </div>
       )}
+
+      {authModalOpen && <AuthModal onClose={() => setAuthModalOpen(false)} />}
     </nav>
   );
 }
