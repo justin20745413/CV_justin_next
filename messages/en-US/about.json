@@ -10,7 +10,7 @@
       "location": "New Taipei City, Taiwan",
       "email": "justin405450816@gmail.com",
       "phone": "+886 975-960-138",
-      "experience": "1.5+ years",
+      "experience": "1.8+ years",
       "photo": "",
       "summary": "Front-end developer skilled in Vue.js, Nuxt.js, TypeScript, and Tailwind CSS. Experienced in full project lifecycle, API collaboration, and creating efficient, user-friendly interfaces."
     },
@@ -97,7 +97,14 @@
         "company": "Sheng Jin Integration Co., Ltd.",
         "role": "Front-End Developer",
         "period": "Sep 2024 – Present",
-        "desc": "Develop enterprise systems with Vue 3 + Nuxt 3. Improve UI consistency, performance, and deployment automation.",
+        "desc": "Develop enterprise-grade web applications using a modern tech stack, delivering high-performance and maintainable user interfaces.",
+        "achievements": [
+          "Built multiple enterprise internal systems using Vue 3 + TypeScript + Nuxt 3",
+          "Introduced Tailwind CSS and Quasar component library to establish a unified design system",
+          "Optimized front-end performance, significantly improving user experience",
+          "Helped establish front-end coding standards and ESLint configuration to improve code quality",
+          "Participated in CI/CD pipeline setup, achieving automated deployment and testing"
+        ],
         "technologies": [
           "Vue 3",
           "Nuxt 3",
@@ -113,7 +120,14 @@
         "company": "Institute for Information Industry",
         "role": "Software Engineer Trainee",
         "period": "Mar 2024 – Jul 2024",
-        "desc": "Completed 5-month full-stack training. Built e-commerce project with JavaScript, PHP, and MySQL.",
+        "desc": "Completed comprehensive software development training covering the full lifecycle from front-end to back-end, design to deployment.",
+        "achievements": [
+          "Completed 5-month intensive programming training covering full-stack development",
+          "Built an e-commerce platform capstone using JavaScript, PHP, and MySQL, earning an excellent evaluation",
+          "Learned Docker containerization and Git version control, establishing solid development habits",
+          "Participated in team collaboration projects, gaining Agile development workflow experience",
+          "Completed Bootstrap responsive web design, mastering RWD development techniques"
+        ],
         "technologies": [
           "JavaScript",
           "PHP",
@@ -130,7 +144,12 @@
         "company": "Mao Li Technology Co., Ltd.",
         "role": "Project Manager",
         "period": "Jun 2022 – Feb 2024",
-        "desc": "Managed PCB hardware projects, streamlined workflows, and coordinated cross-functional teams.",
+        "desc": "Planned, executed, and controlled multiple PCB hardware development projects, ensuring on-time delivery and quality standards.",
+        "achievements": [
+          "Established standardized project management processes, reducing overall project cycle time",
+          "Coordinated cross-functional teams including operators, clients, and vendors to improve collaboration efficiency",
+          "Introduced Agile methodology to improve team productivity and product quality"
+        ],
         "technologies": [
           "MS Project",
           "Requirements Analysis",
